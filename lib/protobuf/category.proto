@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package category;
+
+enum Category {
+  OTHER = 0;
+  PHYSICS = 1;
+  MATHEMATICS = 2;
+}
