@@ -1,7 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/houseofbosons/houseofbosons/services/backend/db"
+)
 
 func main() {
-	fmt.Printf("hello world\n")
+	_, err := db.ConnectDB()
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("Successfully connected!")
 }
