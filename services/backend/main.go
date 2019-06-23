@@ -2,15 +2,24 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/houseofbosons/houseofbosons/services/backend/db"
+	"net/http"
 )
 
 func main() {
-	_, err := db.ConnectDB()
-	if err != nil {
-		panic(err)
-	}
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/api", http.StatusSeeOther)
+	})
 
-	fmt.Println("Successfully connected!")
+	http.HandleFunc("/api", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Welcome to houseofbosons!")
+	})
+
+	http.HandleFunc("/api/auth", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Welcome to auth!")
+	})
+
+	fs := http.FileServer(http.Dir("static/"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+
+	http.ListenAndServe(":8080", nil)
 }
