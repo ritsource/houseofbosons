@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/houseofbosons/houseofbosons/services/backend/router"
 )
 
 func main() {
@@ -14,9 +16,8 @@ func main() {
 		fmt.Fprintf(w, "Welcome to houseofbosons!")
 	})
 
-	http.HandleFunc("/api/auth", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Welcome to auth!")
-	})
+	http.HandleFunc("/api/auth/google", router.GoogleLoginHandeler)
+	http.HandleFunc("/api/auth/google/callback", router.GoogleCallbackHandler)
 
 	fs := http.FileServer(http.Dir("static/"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))

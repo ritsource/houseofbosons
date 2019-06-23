@@ -1,9 +1,15 @@
 package router
 
-import "net/http"
+import (
+	"net/http"
 
-func writeError(w http.ResponseWriter, status int, err error, msg string) {
-	w.WriteHeader(status)
-	w.Header().Set("Content-Type", "application/json")
-	w.Write([]byte("{\"message\": \"" + msg + "\",\"error\": \"" + err.Error() + "\"}"))
+	"github.com/sirupsen/logrus"
+)
+
+func writeErr(w http.ResponseWriter, status int, err error) {
+	w.WriteHeader(status)                                     // Status Code
+	w.Header().Set("Content-Type", "application/json")        // Response Type - JSON
+	w.Write([]byte("{\"message\": \"" + err.Error() + "\"}")) // Error Message
+
+	logrus.Errorf("%v\n", err)
 }
