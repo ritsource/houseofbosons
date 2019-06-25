@@ -8,6 +8,7 @@ declare -A colors=(
 )
 
 export POSTGRES_HOST="localhost"
+export POSTGRES_PORT="5432"
 export POSTGRES_USER="postgres"
 export POSTGRES_PASSWORD="password"
 export POSTGRES_DB_NAME="postgres"
@@ -21,7 +22,7 @@ export GOOGLE_AUTH_REDIRECT_URL="http://localhost:8080/api/auth/google/callback"
 # SECRET_ENV_3=something_more_more;
 
 # reading the contents of file
-SECRETS=$(<secrets.config)
+SECRETS=$(<dev-keys.secret)
 # replacing `\n` from SECRETS string
 SECRETS=$(echo $SECRETS|tr --delete '\n')
 # adding a ` ` at the end of the string, so later can be splitted at `; `
@@ -46,7 +47,7 @@ for i in "${secrets[@]}"
 do
   if [[ ! -v "$i" ]]; then
     # warning if some secret variable is not present in the environment
-    echo -e "[${colors[warning]}WARN${colors[normal]}] environment variable not found - \"${i}\""
+    echo -e "${colors[warning]}WARN${colors[normal]} environment variable not found - \"${i}\""
   else
     :
   fi
@@ -54,5 +55,5 @@ done
 
 
 # starting the go server
-echo -e "[${colors[info]}INFO${colors[normal]}] starting the server..."
+echo -e "${colors[info]}INFO${colors[normal]} starting the server..."
 go run main.go
