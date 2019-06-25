@@ -15,7 +15,6 @@ export POSTGRES_DB_NAME="postgres"
 
 export GOOGLE_AUTH_REDIRECT_URL="http://localhost:8080/api/auth/google/callback"
 
-
 # reading ./secrets.config file, that includes secrets formatted as the following
 # SECRET_ENV_1=something;
 # SECRET_ENV_2=something_more;
@@ -40,7 +39,7 @@ done
 
 
 # secret environment variables that are expected to be declared
-declare -a secrets=("GOOGLE_CLIENT_ID" "GOOGLE_CLIENT_SECRET")
+declare -a secrets=("GOOGLE_CLIENT_ID" "GOOGLE_CLIENT_SECRET" "AUTHORIZED_EMAIL" "SESSION_KEY")
 
 # checking if secret config variables exists or not
 for i in "${secrets[@]}"

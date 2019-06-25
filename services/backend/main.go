@@ -5,14 +5,15 @@ import (
 	"net/http"
 
 	"github.com/houseofbosons/houseofbosons/services/backend/db"
+	"github.com/houseofbosons/houseofbosons/services/backend/middleware"
 
 	"github.com/houseofbosons/houseofbosons/services/backend/router"
 )
 
 func main() {
 	admin := db.Admin{
-		Email:    "ritwik2@ritwiksaha.com",
-		GoogleID: "1234567890112",
+		Email: "ritwik3@ritwiksaha.com",
+		// GoogleID: "1234567890112",
 	}
 
 	admin.Insert()
@@ -26,8 +27,9 @@ func main() {
 		fmt.Fprintf(w, "Welcome to houseofbosons!")
 	})
 
-	http.HandleFunc("/api/auth/google", router.GoogleLoginHandeler)
-	http.HandleFunc("/api/auth/google/callback", router.GoogleCallbackHandler)
+	http.HandleFunc("/api/auth/google", router.GoogleLogin)
+	http.HandleFunc("/api/auth/google/callback", router.GoogleCallback)
+	http.HandleFunc("/api/auth/current_user", middleware.CheckAuth(router.CurrentUser))
 
 	fs := http.FileServer(http.Dir("static/"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
