@@ -9,8 +9,8 @@ import (
 	"os"
 
 	"github.com/gorilla/context"
-	"github.com/houseofbosons/houseofbosons/services/backend/db"
-	"github.com/houseofbosons/houseofbosons/services/backend/middleware"
+	"github.com/houseofbosons/houseofbosons/server/db"
+	"github.com/houseofbosons/houseofbosons/server/middleware"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 )

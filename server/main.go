@@ -3,28 +3,42 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 
-	"github.com/houseofbosons/houseofbosons/services/backend/db"
-	"github.com/houseofbosons/houseofbosons/services/backend/middleware"
+	"github.com/sirupsen/logrus"
 
-	"github.com/houseofbosons/houseofbosons/services/backend/router"
+	"github.com/houseofbosons/houseofbosons/server/db"
+	"github.com/houseofbosons/houseofbosons/server/middleware"
+
+	"github.com/houseofbosons/houseofbosons/server/router"
 )
 
 func main() {
-	admin := db.Admin{
-		Email: "ritwik3@ritwiksaha.com",
-		// GoogleID: "1234567890112",
+	blog := db.Blog{
+		ID:            "blog-no-1",
+		Title:         "title",
+		Description:   "Something",
+		Author:        "Something",
+		FormattedDate: "Something",
+		DocType:       "Something",
+		MDSrc:         "Something",
+		HTMLSrc:       "Something",
+		CreatedAt:     time.Now(),
 	}
 
-	admin.Insert()
+	_, err := blog.Insert()
+	if err != nil {
+		logrus.Errorf("%v", err)
+	}
+
 	// admin.Query()
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/api", http.StatusSeeOther)
+		fmt.Fprintf(w, "Welcome to houseofbosons!")
 	})
 
 	http.HandleFunc("/api", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Welcome to houseofbosons!")
+		fmt.Fprintf(w, "Welcome to houseofbosons api!")
 	})
 
 	http.HandleFunc("/api/auth/google", router.GoogleLogin)

@@ -10,6 +10,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// PG .
 var PG Postgres
 
 func init() {
@@ -43,6 +44,7 @@ type Postgres struct {
 	cfg Config
 }
 
+// Config .
 type Config struct {
 	host     string
 	port     int
@@ -72,18 +74,9 @@ func (pg *Postgres) Close() {
 
 // PrepTables .
 func (pg *Postgres) PrepTables() {
-	pg.createAdminsTable()
-}
+	var a Admin
+	a.CreateTable(pg)
 
-func (pg *Postgres) createAdminsTable() {
-	str := `
-	CREATE TABLE admins (
-		google_id TEXT,
-		email TEXT UNIQUE NOT NULL
-	);`
-
-	_, err := pg.DB.Exec(str)
-	if err != nil {
-		logrus.Warnf("%v\n", err)
-	}
+	var b Blog
+	b.CreateTable(pg)
 }

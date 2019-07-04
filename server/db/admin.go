@@ -3,11 +3,28 @@ package db
 import (
 	"database/sql"
 
-	"github.com/houseofbosons/houseofbosons/lib/go/models"
+	"github.com/sirupsen/logrus"
 )
 
 // Admin ...
-type Admin models.Admin
+type Admin struct {
+	Email    string `json:"email"`
+	GoogleID string `json:"id"`
+}
+
+// CreateTable ..
+func (a *Admin) CreateTable(pg *Postgres) {
+	str := `
+	CREATE TABLE admins (
+		google_id TEXT,
+		email TEXT UNIQUE NOT NULL
+	);`
+
+	_, err := pg.DB.Exec(str)
+	if err != nil {
+		logrus.Warnf("%v\n", err)
+	}
+}
 
 // Insert ...
 func (a *Admin) Insert() (sql.Result, error) {
