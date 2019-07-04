@@ -2,13 +2,12 @@ package db
 
 import (
 	"database/sql"
+
+	"github.com/houseofbosons/houseofbosons/lib/go/models"
 )
 
 // Admin ...
-type Admin struct {
-	Email    string `json:"email"`
-	GoogleID string `json:"id"`
-}
+type Admin models.Admin
 
 // Insert ...
 func (a *Admin) Insert() (sql.Result, error) {
