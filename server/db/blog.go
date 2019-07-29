@@ -23,6 +23,7 @@ type Blog struct {
 	IsFeatured    bool      `json:"is_featured"`
 	IsPublic      bool      `json:"is_public"`
 	IsDeleted     bool      `json:"is_deleted"`
+	Likes         int       `json:"likes"`
 }
 
 // CreateTable ..
@@ -40,7 +41,8 @@ func (b *Blog) CreateTable(pg *Postgres) {
 		created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		is_featured BOOLEAN,
 		is_public BOOLEAN,
-		is_deleted BOOLEAN 
+		is_deleted BOOLEAN,
+		likes INT NOT NULL DEFAULT 0
 	);`
 
 	_, err := pg.DB.Exec(str)
@@ -64,4 +66,46 @@ func (b *Blog) Insert() (sql.Result, error) {
 
 	return PG.DB.Exec(str, b.ID, b.Title, b.Description, b.Author, b.FormattedDate,
 		b.DocType, b.MDSrc, b.HTMLSrc, b.CreatedAt, b.IsFeatured, b.IsPublic, b.IsDeleted)
+}
+
+// Query ...
+func (b *Blog) Query() error {
+	str := `SELECT * FROM admins WHERE id=$1;`
+
+	row := PG.DB.QueryRow(str, b.ID)
+
+	return row.Scan(&b)
+}
+
+// Update .
+func (b *Blog) Update(new *Blog) (sql.Result, error) {
+	// TODO: Find a better strategy (there must be some other tool)
+
+	str := `
+	UPDATE blogs
+	SET id = $2, title = $3, description = $4, author = $5, formatted_date = $6, doc_type = $7,
+	md_src = $8, html_src = $9, created_at = $10, is_featured = $11, is_public = $12, is_deleted = $13
+	WHERE id = $1;`
+
+	return PG.DB.Exec(str, b.ID, new.ID, new.Title, new.Description, new.Author, new.FormattedDate,
+		new.DocType, new.MDSrc, new.HTMLSrc, new.CreatedAt, new.IsFeatured, new.IsPublic, new.IsDeleted)
+}
+
+// Delete .
+func (b *Blog) Delete() (sql.Result, error) {
+	str := `
+	UPDATE blogs
+	SET is_deleted = $2
+	WHERE id = $1;`
+
+	return PG.DB.Exec(str, b.ID, true)
+}
+
+// DeletePerm .
+func (b *Blog) DeletePerm() (sql.Result, error) {
+	str := `
+	DELETE FROM blogs
+	WHERE id = $1;`
+
+	return PG.DB.Exec(str, b.ID)
 }

@@ -5,17 +5,16 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/sirupsen/logrus"
-
 	"github.com/houseofbosons/houseofbosons/server/db"
 	"github.com/houseofbosons/houseofbosons/server/middleware"
+	"github.com/sirupsen/logrus"
 
 	"github.com/houseofbosons/houseofbosons/server/router"
 )
 
 func main() {
 	blog := db.Blog{
-		ID:            "blog-no-1",
+		ID:            "blog-no-2",
 		Title:         "title",
 		Description:   "Something",
 		Author:        "Something",
@@ -26,12 +25,29 @@ func main() {
 		CreatedAt:     time.Now(),
 	}
 
-	_, err := blog.Insert()
+	x, err := blog.Insert()
+
+	// new := db.Blog{
+	// 	ID:            "blog-no-1",
+	// 	Title:         "title",
+	// 	Description:   "Something",
+	// 	Author:        "Some More",
+	// 	FormattedDate: "Something",
+	// 	DocType:       "Something",
+	// 	MDSrc:         "Something",
+	// 	HTMLSrc:       "Something",
+	// 	CreatedAt:     time.Now(),
+	// 	IsFeatured:    false,
+	// 	IsPublic:      false,
+	// 	IsDeleted:     false,
+	// }
+
+	// x, err := blog.DeletePerm()
 	if err != nil {
 		logrus.Errorf("%v", err)
 	}
 
-	// admin.Query()
+	fmt.Printf("%+v\n", x)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Welcome to houseofbosons!")
