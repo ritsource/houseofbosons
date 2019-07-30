@@ -1,111 +1,106 @@
 package db
 
 import (
-	"database/sql"
-	"time"
-
-	"github.com/sirupsen/logrus"
+	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 )
 
-// "database/sql"
+// enums for doctype
+var (
+	DocTypeMD   int8 = 0
+	DocTypeHTML int8 = 1
+)
 
-// Blog ...
+// Blog - Blog model type
 type Blog struct {
-	ID            string    `json:"id"`
-	Title         string    `json:"title"`
-	Description   string    `json:"description"`
-	Author        string    `json:"author"`
-	FormattedDate string    `json:"formatted_date"`
-	DocType       string    `json:"doc_type"`
-	MDSrc         string    `json:"md_src"`
-	HTMLSrc       string    `json:"html_src"`
-	CreatedAt     time.Time `json:"created_at"`
-	IsFeatured    bool      `json:"is_featured"`
-	IsPublic      bool      `json:"is_public"`
-	IsDeleted     bool      `json:"is_deleted"`
-	Likes         int       `json:"likes"`
+	ID            bson.ObjectId `bson:"_id,omitempty" json:"_id,omitempty"`
+	IDStr         string        `bson:"id_str" json:"id_str"`
+	Title         string        `bson:"title" json:"title"`
+	Description   string        `bson:"description" json:"description"`
+	Author        string        `bson:"author" json:"author"`
+	FormattedDate string        `bson:"formatted_date" json:"formatted_date"`
+	DocType       int8          `bson:"doc_type" json:"doc_type"`
+	MDSrc         string        `bson:"md_src" json:"md_src"`
+	HTMLSrc       string        `bson:"html_src" json:"html_src"`
+	Thumbnail     int8          `bson:"thumbnail" json:"thumbnail"`
+	CreatedAt     int32         `bson:"created_at" json:"created_at"`
+	Likes         int           `bson:"likes" json:"likes"`
+	IsFeatured    bool          `bson:"is_featured" json:"is_featured"`
+	IsPublic      bool          `bson:"is_public" json:"is_public"`
+	IsDeleted     bool          `bson:"is_deleted" json:"is_deleted"`
+	IsSeries      bool          `bson:"is_series" json:"is_series"`
+	SubBlogs      []SubBlog     `bson:"sub_blogs" json:"sub_blogs"`
 }
 
-// CreateTable ..
-func (b *Blog) CreateTable(pg *Postgres) {
-	str := `
-	CREATE TABLE blogs (
-		id TEXT UNIQUE NOT NULL,
-		title TEXT NOT NULL,
-		description TEXT,
-		author TEXT,
-		formatted_date TEXT,
-		doc_type TEXT,
-		md_src TEXT,
-		html_src TEXT,
-		created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		is_featured BOOLEAN,
-		is_public BOOLEAN,
-		is_deleted BOOLEAN,
-		likes INT NOT NULL DEFAULT 0
-	);`
+// SubBlog - Blog model type
+type SubBlog struct {
+	Title         string `bson:"title" json:"title"`
+	Description   string `bson:"description" json:"description"`
+	FormattedDate string `bson:"formatted_date" json:"formatted_date"`
+	DocType       int8   `bson:"doc_type" json:"doc_type"`
+	MDSrc         string `bson:"md_src" json:"md_src"`
+	HTMLSrc       string `bson:"html_src" json:"html_src"`
+	Likes         int    `bson:"likes" json:"likes"`
+}
 
-	_, err := pg.DB.Exec(str)
+// Blogs - Slice of Blogs
+type Blogs []Blog
+
+// Read - Reads all Documents from blogs
+func (bs *Blogs) Read(f, s bson.M) error {
+	err := MgoDB.C("blogs").Find(f).Sort("-created_at").Select(s).All(bs)
 	if err != nil {
-		logrus.Warnf("%v\n", err)
+		return err
 	}
+
+	return nil
 }
 
-// str := `
-// 	INSERT INTO admins (email, google_id)
-// 	VALUES ($1, $2)`
+// Create - Creates new Document
+func (b *Blog) Create() error {
+	err := MgoDB.C("blogs").Insert(&b)
+	if err != nil {
+		return err
+	}
 
-// 	return PG.DB.Exec(str, a.Email, a.GoogleID)
-
-// Insert .
-func (b *Blog) Insert() (sql.Result, error) {
-	str := `
-	INSERT INTO blogs (id, title, description, author, formatted_date,
-		doc_type, md_src, html_src, created_at, is_featured, is_public, is_deleted)
-	VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`
-
-	return PG.DB.Exec(str, b.ID, b.Title, b.Description, b.Author, b.FormattedDate,
-		b.DocType, b.MDSrc, b.HTMLSrc, b.CreatedAt, b.IsFeatured, b.IsPublic, b.IsDeleted)
+	return nil
 }
 
-// Query ...
-func (b *Blog) Query() error {
-	str := `SELECT * FROM admins WHERE id=$1;`
+// Read - Reads single Document
+func (b *Blog) Read(f, s bson.M) error {
+	err := MgoDB.C("blogs").Find(f).Select(s).One(b)
+	if err != nil {
+		return err
+	}
 
-	row := PG.DB.QueryRow(str, b.ID)
-
-	return row.Scan(&b)
+	return nil
 }
 
-// Update .
-func (b *Blog) Update(new *Blog) (sql.Result, error) {
-	// TODO: Find a better strategy (there must be some other tool)
+// Update - Updates a Document by ID
+func (b *Blog) Update(s bson.M, u bson.M) error {
+	change := mgo.Change{
+		Update:    bson.M{"$set": u},
+		ReturnNew: true,
+	}
+	_, err := MgoDB.C("blogs").Find(s).Apply(change, b)
 
-	str := `
-	UPDATE blogs
-	SET id = $2, title = $3, description = $4, author = $5, formatted_date = $6, doc_type = $7,
-	md_src = $8, html_src = $9, created_at = $10, is_featured = $11, is_public = $12, is_deleted = $13
-	WHERE id = $1;`
-
-	return PG.DB.Exec(str, b.ID, new.ID, new.Title, new.Description, new.Author, new.FormattedDate,
-		new.DocType, new.MDSrc, new.HTMLSrc, new.CreatedAt, new.IsFeatured, new.IsPublic, new.IsDeleted)
+	return err
 }
 
-// Delete .
-func (b *Blog) Delete() (sql.Result, error) {
-	str := `
-	UPDATE blogs
-	SET is_deleted = $2
-	WHERE id = $1;`
+// Delete - Deletes a Document
+func (b *Blog) Delete(id bson.ObjectId) error {
+	// err := blogCol.Update(bson.M{"_id": id}, bson.M{"is_deleted": true})
+	change := mgo.Change{
+		Update:    bson.M{"$set": bson.M{"is_deleted": true}},
+		ReturnNew: true,
+	}
+	_, err := MgoDB.C("blogs").Find(bson.M{"_id": b.ID}).Apply(change, b)
 
-	return PG.DB.Exec(str, b.ID, true)
+	return err
 }
 
-// DeletePerm .
-func (b *Blog) DeletePerm() (sql.Result, error) {
-	str := `
-	DELETE FROM blogs
-	WHERE id = $1;`
-
-	return PG.DB.Exec(str, b.ID)
+// DeletePermanent - Deletes a document permanently
+func (b *Blog) DeletePermanent() error {
+	err := MgoDB.C("blogs").Remove(bson.M{"_id": b.ID})
+	return err
 }

@@ -7,13 +7,12 @@ declare -A colors=(
   ["normal"]="\e[0m"        # for normal (for making text normal again)
 )
 
-export POSTGRES_HOST="localhost"
-export POSTGRES_PORT="5432"
-export POSTGRES_USER="postgres"
-export POSTGRES_PASSWORD="password"
-export POSTGRES_DB_NAME="postgres"
-
+export DEV_MODE="true"
+export MONGO_URI="mongodb://localhost:27017"
+export DB_NAME="houseofbosons-dev"
+export TEST_DB_NAME="houseofbosons-test"
 export GOOGLE_AUTH_REDIRECT_URL="http://localhost:8080/api/auth/google/callback"
+export ADMIN_ORIGIN="http://localhost:3000"
 
 # reading ./secrets.config file, that includes secrets formatted as the following
 # SECRET_ENV_1=something;

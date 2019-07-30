@@ -1,7 +1,6 @@
-package router
+package handlers
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -11,8 +10,11 @@ import (
 	"github.com/gorilla/context"
 	"github.com/houseofbosons/houseofbosons/server/db"
 	"github.com/houseofbosons/houseofbosons/server/middleware"
+	"github.com/sirupsen/logrus"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
+	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 )
 
 var (
@@ -41,39 +43,44 @@ func GoogleLogin(w http.ResponseWriter, r *http.Request) {
 // GoogleCallback handles googles user info response while oauth login
 func GoogleCallback(w http.ResponseWriter, r *http.Request) {
 	// reading the user's data from google apis
-	data, err := userInfo(r.FormValue("state"), r.FormValue("code"))
+	info, err := userInfo(r.FormValue("state"), r.FormValue("code"))
 	if err != nil {
 		writeErr(w, 500, err)
 		return
 	}
 
-	var admin db.Admin
-	err = json.Unmarshal(data, &admin)
+	var data db.Admin
+	err = json.Unmarshal(info, &data)
 	if err != nil {
 		writeErr(w, 500, err)
 		return
 	}
 
 	// checking if that email is allowed to login or not, basically if admin's email or not
-	if admin.Email != os.Getenv("AUTHORIZED_EMAIL") {
-		writeErr(w, 500, fmt.Errorf("email %v is not authorized for login", admin.Email))
+	if data.Email != os.Getenv("AUTHORIZED_EMAIL") {
+		writeErr(w, 500, fmt.Errorf("email %v is not authorized for login", data.Email))
 		return
 	}
 
 	// querying the admin data from database
-	err = admin.Query()
+	var admin db.Admin
+	err = admin.Read(bson.M{"email": data.Email, "google_id": data.GoogleID})
 
 	switch err {
-	case sql.ErrNoRows:
+	case mgo.ErrNotFound:
 		// no record (row) found with the admin's email
-		fmt.Printf("Admin %v not found\n", admin.Email)
-		_, err := admin.Insert()
+		logrus.Infof("creating new admin - %v\n", admin.Email)
+
+		// Inserting Document
+		admin = data
+		err = admin.Create()
 		if err != nil {
-			fmt.Printf("couldn't insert admin, %v\n", err)
+			logrus.Warnf("couldn't create a new admin, %v\n", err)
 			writeErr(w, 500, err)
+			return
 		}
 	case nil:
-		// everything's file, user exists and allowed to login
+		// everything's fine, user exists and allowed to login
 	default:
 		// some internal error
 		writeErr(w, 500, err)
@@ -85,9 +92,12 @@ func GoogleCallback(w http.ResponseWriter, r *http.Request) {
 	session.Values["admin_email"] = admin.Email
 	session.Save(r, w)
 
-	// writing the admin json to the client
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(admin)
+	// // writing the admin json to the client
+	// w.Header().Set("Content-Type", "application/json")
+	// json.NewEncoder(w).Encode(admin)
+
+	// redirecting to current_user route
+	http.Redirect(w, r, os.Getenv("ADMIN_ORIGIN"), http.StatusSeeOther)
 }
 
 // userInfo sends a request to google apis and gets the user's data for us
@@ -115,21 +125,18 @@ func CurrentUser(w http.ResponseWriter, r *http.Request) {
 	// reading session info passed via middleware.CheckAuth middleware
 	// that this function (handler) is going to be passed on in the router
 	email := context.Get(r, "admin_e")
-	fmt.Printf("%v\n", email)
 
 	if email == nil {
 		writeErr(w, http.StatusBadRequest, fmt.Errorf("unable to read auth cookie"))
 		return
 	}
 
-	admin := db.Admin{Email: email.(string)}
-
-	err := admin.Query()
+	var admin db.Admin
+	err := admin.Read(bson.M{"email": email.(string)})
 	if err != nil {
 		writeErr(w, http.StatusBadRequest, err)
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(admin)
+	writeJSON(w, admin)
 }
