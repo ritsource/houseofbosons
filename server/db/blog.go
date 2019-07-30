@@ -5,16 +5,20 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-// enums for doctype
+/*
+enums for `DocType` values in `Blog`
+*/
 var (
 	DocTypeMD   int8 = 0
 	DocTypeHTML int8 = 1
 )
 
-// Blog - Blog model type
+/*
+Blog struct
+*/
 type Blog struct {
 	ID            bson.ObjectId `bson:"_id,omitempty" json:"_id,omitempty"`
-	IDStr         string        `bson:"id_str" json:"id_str"`
+	URLIDs        string        `bson:"url_ids" json:"url_ids"`
 	Title         string        `bson:"title" json:"title"`
 	Description   string        `bson:"description" json:"description"`
 	Author        string        `bson:"author" json:"author"`
@@ -22,7 +26,7 @@ type Blog struct {
 	DocType       int8          `bson:"doc_type" json:"doc_type"`
 	MDSrc         string        `bson:"md_src" json:"md_src"`
 	HTMLSrc       string        `bson:"html_src" json:"html_src"`
-	Thumbnail     int8          `bson:"thumbnail" json:"thumbnail"`
+	Thumbnail     string        `bson:"thumbnail" json:"thumbnail"`
 	CreatedAt     int32         `bson:"created_at" json:"created_at"`
 	Likes         int           `bson:"likes" json:"likes"`
 	IsFeatured    bool          `bson:"is_featured" json:"is_featured"`

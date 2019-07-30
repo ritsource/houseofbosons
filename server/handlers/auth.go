@@ -1,3 +1,7 @@
+/*
+`auth.go` contains admin authentication related handlers
+*/
+
 package handlers
 
 import (
@@ -34,13 +38,17 @@ func init() {
 	oauthStateStr = "pseudo-random"
 }
 
-// GoogleLogin redirects login requests to google's oauth api
+/*
+GoogleLogin redirects login requests to google's oauth api
+*/
 func GoogleLogin(w http.ResponseWriter, r *http.Request) {
 	url := oauthConfig.AuthCodeURL(oauthStateStr)
 	http.Redirect(w, r, url, http.StatusTemporaryRedirect) // Redirecting to Google
 }
 
-// GoogleCallback handles googles user info response while oauth login
+/*
+GoogleCallback handles googles user info response while oauth login
+*/
 func GoogleCallback(w http.ResponseWriter, r *http.Request) {
 	// reading the user's data from google apis
 	info, err := userInfo(r.FormValue("state"), r.FormValue("code"))
@@ -120,7 +128,9 @@ func userInfo(state, code string) ([]byte, error) {
 	return ioutil.ReadAll(resp.Body)
 }
 
-// CurrentUser writes currenntly logged in user's info to teh client
+/*
+CurrentUser writes currenntly logged in user's info to teh client
+*/
 func CurrentUser(w http.ResponseWriter, r *http.Request) {
 	// reading session info passed via middleware.CheckAuth middleware
 	// that this function (handler) is going to be passed on in the router

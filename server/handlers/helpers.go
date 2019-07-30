@@ -1,3 +1,7 @@
+/*
+`helpers.go` conatins helper functions
+*/
+
 package handlers
 
 import (
