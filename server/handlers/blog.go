@@ -10,10 +10,36 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ritwik310/my-website/server/db"
+	"github.com/houseofbosons/houseofbosons/server/db"
+
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
+
+// func init() {
+// 	b := db.Blog{
+// 		URLIDs:        []string{"blog-3", "third-blog"},
+// 		Title:         "Title-3",
+// 		Description:   "A monorepo containing all the libraries and services for House-of-Bosons, a Science-blog on Physics, Math, Astronomy & More.",
+// 		Author:        "Ritwik Saha",
+// 		FormattedDate: "21  July, 2019",
+// 		DocType:       db.DocTypeMD,
+// 		MDSrc:         "https://gitlab.com/ritwik310/blog-documents/raw/master/Write-a-Torrent-Client-in-Go-0/Write-a-Torrent-Client-in-Go-0.md",
+// 		Thumbnail:     "https://gitlab.com/ritwik310/blog-documents/raw/master/Write-a-Torrent-Client-in-Go-0/Torrent-Client-P2P-Messaging-3.png",
+// 		IsFeatured:    false,
+// 		IsPublic:      true,
+// 		IsDeleted:     false,
+// 		IsSeries:      false,
+// 	}
+
+// 	b.CreatedAt = int32(time.Now().Unix())
+
+// 	err := b.Create()
+// 	if err != nil {
+// 		logrus.Errorf("%v\n", err)
+// 		return
+// 	}
+// }
 
 /*
 CreateBlog creates a new blog from provided data read on `http.Request` body,
@@ -95,7 +121,7 @@ func ReadBlogs(w http.ResponseWriter, r *http.Request) {
 
 	// reading all the `blog` documents from database
 	var bs db.Blogs
-	err := bs.Read(bson.M{}, bson.M{})
+	err := bs.ReadAll(bson.M{}, bson.M{})
 	if err != nil {
 		writeErr(w, 500, err)
 		return

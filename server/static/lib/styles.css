@@ -17,11 +17,17 @@ object {
 }
 
 a {
+	color: var(--theme-color);
 	text-decoration: none;
+}
+
+a:visited {
+	color: var(--theme-color);
 }
 
 a:hover {
 	text-decoration: underline;
+	color: var(--theme-color-m-0);
 }
 
 h1,
@@ -95,4 +101,15 @@ textarea:focus {
 	font-size: 0.9rem;
 	color: var(--theme-color);
 	margin-left: 10px;
+}
+
+.Container-Center {
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.Error-Msg-Div {
+	text-align: center;
 }

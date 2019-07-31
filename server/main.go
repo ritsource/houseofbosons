@@ -5,16 +5,15 @@ import (
 	"net/http"
 
 	"github.com/houseofbosons/houseofbosons/server/middleware"
+	"github.com/houseofbosons/houseofbosons/server/renderers"
 
 	"github.com/houseofbosons/houseofbosons/server/handlers"
 )
 
 func main() {
-	// http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-	// 	fmt.Fprintf(w, "Welcome to houseofbosons!")
-	// })
-
-	http.Handle("/", http.FileServer(http.Dir("./static")))
+	http.HandleFunc("/", renderers.IndexHandler)
+	http.HandleFunc("/posts", renderers.BlogsHandler)
+	// http.HandleFunc("/(post|blog)/", renderers.BlogsHandler)
 
 	http.HandleFunc("/api", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Welcome to houseofbosons api!")

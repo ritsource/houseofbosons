@@ -18,7 +18,7 @@ Blog struct
 */
 type Blog struct {
 	ID            bson.ObjectId `bson:"_id,omitempty" json:"_id,omitempty"`
-	URLIDs        string        `bson:"url_ids" json:"url_ids"`
+	URLIDs        []string      `bson:"url_ids" json:"url_ids"`
 	Title         string        `bson:"title" json:"title"`
 	Description   string        `bson:"description" json:"description"`
 	Author        string        `bson:"author" json:"author"`
@@ -47,17 +47,34 @@ type SubBlog struct {
 	Likes         int    `bson:"likes" json:"likes"`
 }
 
-// Blogs - Slice of Blogs
+/*
+Blogs is slice of Blogs
+*/
 type Blogs []Blog
 
-// Read - Reads all Documents from blogs
-func (bs *Blogs) Read(f, s bson.M) error {
-	err := MgoDB.C("blogs").Find(f).Sort("-created_at").Select(s).All(bs)
-	if err != nil {
-		return err
-	}
+/*
+Count returns the number of documents
+that exists in the provided query
+*/
+func (bs *Blogs) Count(f bson.M) (int, error) {
+	return MgoDB.C("blogs").Find(f).Count()
+}
 
-	return nil
+/*
+ReadAll reads all blog-documents from the database
+and puts the values into `Blogs` slice
+*/
+func (bs *Blogs) ReadAll(f, s bson.M) error {
+	return MgoDB.C("blogs").Find(f).Sort("-created_at").Select(s).All(bs)
+}
+
+/*
+ReadFew reads a certain number of blog-documents from the database
+the `skp` and `lim` values defines teh `skip` and `limit` values
+for the query
+*/
+func (bs *Blogs) ReadFew(f, s bson.M, skp, lim int) error {
+	return MgoDB.C("blogs").Find(f).Sort("-created_at").Select(s).Skip(skp).Limit(lim).All(bs)
 }
 
 // Create - Creates new Document

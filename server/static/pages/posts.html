@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+  <link rel='shortcut icon' type='image/x-icon' href="/static/favicon.ico"/>
+  <link rel="stylesheet" href="/static/lib/var1.css">
+  <link rel="stylesheet" href="/static/lib/classes.css">
+  <link rel="stylesheet" href="/static/lib/styles.css">
+  <title>Blogs | House of Bosons</title>
+</head>
+<body>
+
+    {{template "header"}}
+
+    <div>
+        <p>Current - {{.PageData.Current}}</p>
+        <p>totaltotaltotaltotalLast - {{.PageData.Last}}</p>
+    </div>
+
+    {{range .Posts}}
+      <h1>{{.Title}}</h1>
+    {{end}}
+
+ 
+
+    {{template "footer"}}
+</body>
+</html>
