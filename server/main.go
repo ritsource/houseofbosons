@@ -10,9 +10,11 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Welcome to houseofbosons!")
-	})
+	// http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	// 	fmt.Fprintf(w, "Welcome to houseofbosons!")
+	// })
+
+	http.Handle("/", http.FileServer(http.Dir("./static")))
 
 	http.HandleFunc("/api", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Welcome to houseofbosons api!")

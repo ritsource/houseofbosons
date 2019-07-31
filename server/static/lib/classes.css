@@ -1,0 +1,39 @@
+.Flex-Row-Space-Center,
+.Flex-Row-Space-Between,
+.Flex-Row-Start,
+.Flex-Row-End {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.Flex-Row-Space-Center {
+	justify-content: center;
+}
+
+.Flex-Row-Space-Between {
+	justify-content: space-between;
+}
+
+.Flex-Row-Start {
+	justify-content: flex-start;
+}
+
+.Flex-Row-End {
+	justify-content: flex-end;
+}
+
+.Type-0-Btn-Blue {
+	color: white;
+	background-image: linear-gradient(to bottom, var(--theme-color), var(--theme-color-m-0));
+	border: 0px solid white;
+	padding: 8px 16px;
+	border-radius: 4px;
+
+	cursor: pointer;
+}
+
+.Type-0-Btn-Blue:hover {
+	/* background: var(--theme-color-m-0); */
+	background-image: linear-gradient(to bottom, var(--theme-color), var(--theme-color-m-0) 20%);
+}
