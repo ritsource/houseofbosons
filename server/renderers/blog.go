@@ -59,6 +59,7 @@ func BlogsHandler(w http.ResponseWriter, r *http.Request) {
 	// parsing templates
 	t, err := template.ParseFiles(
 		"static/pages/posts.html",
+		"static/partials/posts-item.html",
 		"static/partials/header.html",
 		"static/partials/footer.html",
 	)

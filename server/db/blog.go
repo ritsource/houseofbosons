@@ -18,7 +18,7 @@ Blog struct
 */
 type Blog struct {
 	ID            bson.ObjectId `bson:"_id,omitempty" json:"_id,omitempty"`
-	URLIDs        []string      `bson:"url_ids" json:"url_ids"`
+	IDStr         string        `bson:"id_str" json:"id_str"`
 	Title         string        `bson:"title" json:"title"`
 	Description   string        `bson:"description" json:"description"`
 	Author        string        `bson:"author" json:"author"`

@@ -1,0 +1,38 @@
+{{define "posts-item"}}
+<div class="Posts-Item">
+  {{if .IsSeries}}
+        <a href="/thread/{{.IDStr}}?index=0" ><h2 class="Posts-Item-Title">{{.Title}}</h2></a>
+        <p class="Posts-Item-Desc">{{.Description}}</p>
+        
+        <div>
+            {{$parentid := .IDStr}}
+            {{range $i, $a := .SubBlogs}}
+                {{if gt $i 1}}
+                    <a href="/thread/{{$parentid}}?index={{$i}}" style="display: none"><h4 class="Post-Item-Sub-Title">{{$i}} - {{$a.Title}}</h4></a>
+                    <p class="Post-Item-Sub-Desc" style="display: none">{{.Description}}</p>
+                {{else}}
+                    <a href="/thread/{{$parentid}}?index={{$i}}" style="display: block"><h4 class="Post-Item-Sub-Title">{{$i}} - {{$a.Title}}</h4></a>
+                    <p class="Post-Item-Sub-Desc" style="display: block">{{.Description}}</p>
+                {{end}}
+            {{end}}
+            {{$length := len .SubBlogs}}
+            {{if gt $length 2}}
+                <button class="Posts-Item-Series-Toggle-Btn-99">...more</button>
+            {{end}}
+        </div>
+
+    {{else}}
+        <a href="/post/{{.IDStr}}" ><h2 class="Posts-Item-Title">{{.Title}}</h2></a>
+        <p class="Posts-Item-Desc">{{.Description}}</p>
+    {{end}}
+
+    <p class="Posts-Item-Info">
+      <span>{{if .Author}}by <strong>{{.Author}}</strong>{{end}}</span>
+      <span>{{if .FormattedDate}} <i class="fas fa-calendar-day"></i> {{.FormattedDate}}{{end}}</span>
+      {{if not .IsSeries}}
+        <span><i class="fas fa-thumbs-up"></i>{{.Likes}}</span>
+      {{end}}
+    </p>
+</div>
+
+{{end}}
