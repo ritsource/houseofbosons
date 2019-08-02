@@ -36,8 +36,11 @@ func BlogsHandler(w http.ResponseWriter, r *http.Request) {
 	// bs represents the slice of blogs
 	var bs db.Blogs
 
+	// mongodb filter
+	mgoSelector := bson.M{"topics": bson.M{"$all": []string{topic}}, "is_deleted": false, "is_public": true}
+
 	// reading the number of documents from database
-	nbs, err := bs.Count(bson.M{"is_deleted": false, "is_public": true})
+	nbs, err := bs.Count(mgoSelector)
 	if err != nil {
 		renderErr(w, 422, "Unable to Read from Database")
 		return
@@ -52,7 +55,7 @@ func BlogsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// reading all the requested blogs posts data (only the ones taht exists in this page)
-	err = bs.ReadFew(bson.M{"is_deleted": false, "is_public": true}, bson.M{}, num.Current*nbpp, nbpp)
+	err = bs.ReadFew(mgoSelector, bson.M{}, num.Current*nbpp, nbpp)
 	if err != nil {
 		renderErr(w, 422, "Unable to Read Blogs from Database")
 		return

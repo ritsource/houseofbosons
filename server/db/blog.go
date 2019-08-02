@@ -28,6 +28,7 @@ type Blog struct {
 	Thumbnail     string        `bson:"thumbnail" json:"thumbnail"`
 	CreatedAt     int32         `bson:"created_at" json:"created_at"`
 	Likes         int           `bson:"likes" json:"likes"`
+	Topics        []string      `bson:"topics" json:"topics"`
 	IsFeatured    bool          `bson:"is_featured" json:"is_featured"`
 	IsPublic      bool          `bson:"is_public" json:"is_public"`
 	IsDeleted     bool          `bson:"is_deleted" json:"is_deleted"`
