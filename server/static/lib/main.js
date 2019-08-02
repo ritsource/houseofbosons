@@ -41,13 +41,13 @@ window.onscroll = function() {
 
 //
 
-function NavigateToPage(num) {
+function NewQuery(key, val) {
 	if ('URLSearchParams' in window) {
 		var searchParams = new URLSearchParams(window.location.search);
-		searchParams.set('pagenum', num);
+		searchParams.set(key, val);
 		window.location.search = searchParams.toString();
 	} else {
-		window.location.search = 'pagenum=' + num;
+		window.location.search = key + '=' + val;
 	}
 }
 
@@ -58,7 +58,21 @@ Object.values(NavBtns).map((el) => {
 		'click',
 		function(e) {
 			var num = e.target.attributes.navto.value;
-			NavigateToPage(num);
+			NewQuery('pagenum', num);
+		},
+		false
+	);
+});
+
+const OptionBtns = document.getElementsByClassName('Option-Btn');
+
+Object.values(OptionBtns).map((el) => {
+	el.addEventListener(
+		'click',
+		function(e) {
+			var title = e.target.text;
+			// console.log(title);
+			NewQuery('topic', title);
 		},
 		false
 	);

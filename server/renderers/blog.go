@@ -31,6 +31,7 @@ func BlogsHandler(w http.ResponseWriter, r *http.Request) {
 	// reading the page-number from query staring
 	var err error
 	num.Current, _ = strconv.Atoi(r.URL.Query().Get("pagenum"))
+	topic := r.URL.Query().Get("topic")
 
 	// bs represents the slice of blogs
 	var bs db.Blogs
@@ -39,6 +40,7 @@ func BlogsHandler(w http.ResponseWriter, r *http.Request) {
 	nbs, err := bs.Count(bson.M{"is_deleted": false, "is_public": true})
 	if err != nil {
 		renderErr(w, 422, "Unable to Read from Database")
+		return
 	}
 
 	// the last possible page-index
@@ -52,7 +54,16 @@ func BlogsHandler(w http.ResponseWriter, r *http.Request) {
 	// reading all the requested blogs posts data (only the ones taht exists in this page)
 	err = bs.ReadFew(bson.M{"is_deleted": false, "is_public": true}, bson.M{}, num.Current*nbpp, nbpp)
 	if err != nil {
-		renderErr(w, 422, "Unable to Read from Database")
+		renderErr(w, 422, "Unable to Read Blogs from Database")
+		return
+	}
+
+	// reading `topic` documents from the database
+	var ts db.Topics
+	err = ts.ReadAll()
+	if err != nil {
+		renderErr(w, 422, "Unable to Read Topics from Database")
+		return
 	}
 
 	// parsing templates
@@ -64,6 +75,7 @@ func BlogsHandler(w http.ResponseWriter, r *http.Request) {
 	)
 	if err != nil {
 		writeErr(w, 500, err)
+		return
 	}
 
 	err = t.Execute(w, struct {
@@ -71,10 +83,14 @@ func BlogsHandler(w http.ResponseWriter, r *http.Request) {
 		NavArray   []NavArray
 		NavCurrent int
 		Posts      db.Blogs
+		Topics     db.Topics
+		TopicSel   string
 	}{
 		NavArray:   getNavArray(num),
 		NavCurrent: num.Current,
 		Posts:      bs,
+		Topics:     ts,
+		TopicSel:   topic,
 	})
 	if err != nil {
 		writeErr(w, 500, err)

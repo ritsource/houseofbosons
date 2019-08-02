@@ -1,6 +1,5 @@
 .Posts-Page-Body {
 	min-height: calc(100vh - 60px*2);
-	/* height: ; */
 	padding: var(--navbar-height);
 	display: flex;
 	flex-direction: row;
@@ -9,13 +8,10 @@
 }
 
 .Posts-Page-List {
-	/* border: 1px solid coral; */
-	/* max-width: 900px; */
 	max-width: 70%;
 }
 
 .Posts-Page-Tools {
-	/* border: 1px solid yellow; */
 	width: calc(30% - 50px);
 }
 
@@ -28,6 +24,7 @@
 .Posts-Page-Tools-Option-Box .Option-Btn {
 	margin: 3px 6px;
 	float: left;
+	cursor: pointer;
 }
 
 .Posts-Page-Tools-Option-Box .Option-Btn a {
@@ -118,6 +115,8 @@
 
 .Posts-Page-List-Page-Navigator {
 	width: 100%;
+	margin-top: auto;
+	bottom: 0px;
 }
 
 .Posts-Page-Navigator-Btn {
@@ -126,7 +125,6 @@
 	letter-spacing: 0.2px;
 	color: var(--text-color-3);
 	border: 1px solid var(--text-color-3);
-	/* border-radius: 4px; */
 	background: white;
 
 	width: 30px;
