@@ -11,19 +11,40 @@
   <link rel="stylesheet" href="/static/lib/classes.css">
   <link rel="stylesheet" href="/static/lib/styles.css">
   <link rel="stylesheet" href="/static/lib/posts.css">
-  <script src="https://kit.fontawesome.com/64b6bfed3e.js"></script>
+  <script async src="/static/lib/fontawesome.js"></script>
   <title>Blogs | House of Bosons</title>
 </head>
 <body>
 
     {{template "header"}}
 
-    {{range .Posts}}
-      {{template "posts-item" .}}
-    {{end}}
+    <div class="Posts-Page-Body">
+        <div class="Posts-Page-List">  
+          {{range .Posts}}
+          {{template "posts-item" .}}
+          {{end}}
+          
+          {{template "footer"}}
+        </div>
+        <div class="Posts-Page-Tools">
+          <p class="Posts-Page-Tools-Header">Filter by Topics</p>
+          <div class="Posts-Page-Tools-Option-Box">
+            <div class="Option-Btn Option-Selected"><a href="/posts">Apple</a></div>
+            <div class="Option-Btn"><a href="/posts">Google</a></div>
+            <div class="Option-Btn"><a href="/posts">Amazon</a></div>
+            <div class="Option-Btn"><a href="/posts">Microsoft</a></div>
+            <div class="Option-Btn"><a href="/posts">Y Combinator</a></div>
+            <div class="Option-Btn"><a href="/posts">Khan Academy</a></div>
+            <div class="Option-Btn"><a href="/posts">House of Bosons</a></div>
+            <div class="Option-Btn"><a href="/posts">OpenAI</a></div>
+            <div class="Option-Btn"><a href="/posts">Youtube</a></div>
+            <div class="Option-Btn"><a href="/posts">Facebook</a></div>
+            <div class="Option-Btn"><a href="/posts">Memes</a></div>
+          </div>
+        </div>
 
-    {{template "footer"}}
-       
+    </div>   
+
     <script src="/static/lib/main.js"></script>
 </body>
 </html>

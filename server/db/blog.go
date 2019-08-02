@@ -21,7 +21,6 @@ type Blog struct {
 	IDStr         string        `bson:"id_str" json:"id_str"`
 	Title         string        `bson:"title" json:"title"`
 	Description   string        `bson:"description" json:"description"`
-	Author        string        `bson:"author" json:"author"`
 	FormattedDate string        `bson:"formatted_date" json:"formatted_date"`
 	DocType       int8          `bson:"doc_type" json:"doc_type"`
 	MDSrc         string        `bson:"md_src" json:"md_src"`

@@ -1,7 +1,6 @@
 package renderers
 
 import (
-	"fmt"
 	"math"
 	"net/http"
 	"strconv"
@@ -66,8 +65,6 @@ func BlogsHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		writeErr(w, 500, err)
 	}
-
-	fmt.Printf("%+v\n", len(bs))
 
 	err = t.Execute(w, struct {
 		PageData PageIdxes

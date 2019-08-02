@@ -24,6 +24,9 @@
 }
 
 .Type-0-Btn-Blue {
+	font-family: 'Lato', sans-serif;
+	font-size: 0.9rem;
+	letter-spacing: 0.2px;
 	color: white;
 	background-image: linear-gradient(to bottom, var(--theme-color), var(--theme-color-m-0));
 	border: 0px solid white;

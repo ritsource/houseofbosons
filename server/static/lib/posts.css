@@ -1,7 +1,54 @@
+.Posts-Page-Body {
+	min-height: calc(100vh - 60px*2);
+	/* height: ; */
+	padding: var(--navbar-height);
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding: 70px 100px 50px 100px;
+}
+
+.Posts-Page-List {
+	/* border: 1px solid coral; */
+	/* max-width: 900px; */
+	max-width: 70%;
+}
+
+.Posts-Page-Tools {
+	/* border: 1px solid yellow; */
+	width: calc(30% - 50px);
+}
+
+.Posts-Page-Tools-Header {
+	font-size: 18px;
+	padding: 6px;
+	text-align: left;
+}
+
+.Posts-Page-Tools-Option-Box .Option-Btn {
+	margin: 3px 6px;
+	float: left;
+}
+
+.Posts-Page-Tools-Option-Box .Option-Btn a {
+	color: var(--text-color-3);
+	font-size: 0.9rem;
+}
+
+.Posts-Page-Tools-Option-Box .Option-Selected a {
+	color: var(--theme-color);
+	text-decoration: underline;
+	font-size: 0.9rem;
+}
+
 .Posts-Item {
+	padding: 0px 0px 30px 0px;
+	margin: 0px;
 	/* border: 1px solid red; */
-	padding: 10px;
-	margin: 10px 0px;
+}
+
+.Posts-Item-Series {
+	padding-bottom: 20px;
 }
 
 .Posts-Item-Title,
@@ -16,21 +63,26 @@
 
 .Posts-Item-Desc,
 .Post-Item-Sub-Desc,
-.Posts-Item-Info {
+.Posts-Item-Info,
+.Posts-Item-Sub-Info {
 	font-size: 0.9rem;
 	color: var(--text-color-3);
 	line-height: 18px;
 }
 
-.Posts-Item-Info {
+.Posts-Item-Info,
+.Posts-Item-Sub-Info {
 	font-size: 0.8rem;
 }
 
-.Posts-Item-Info span {
+.Posts-Item-Info span,
+.Posts-Item-Sub-Info span {
 	margin-right: 20px;
 }
 
-.Posts-Item-Info i {
+.Posts-Item-Info i,
+.Posts-Item-Sub-Info i {
+	color: var(--text-color-4);
 	font-size: 0.7rem;
 	margin-right: 5px;
 }
@@ -39,13 +91,14 @@
 	margin-bottom: 5px;
 }
 .Post-Item-Sub-Title {
-	margin: 15px 0px 0px 0px;
+	margin: 20px 0px 5px 0px;
 }
 .Post-Item-Sub-Desc {
-	margin-top: 5px;
+	/* margin-top: 5px; */
 }
 
-.Posts-Item-Info {
+.Posts-Item-Info,
+.Posts-Item-Sub-Info {
 	margin-top: 8px;
 }
 
@@ -55,4 +108,5 @@
 	background: white;
 	cursor: pointer;
 	margin-top: 12px;
+	margin-bottom: 0px;
 }

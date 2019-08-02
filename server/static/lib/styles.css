@@ -55,10 +55,6 @@ button {
 	padding: 0px;
 }
 
-button {
-	font-size: 0.9rem;
-}
-
 button:focus,
 input:focus,
 textarea:focus {
@@ -111,4 +107,25 @@ textarea:focus {
 
 .Error-Msg-Div {
 	text-align: center;
+}
+
+/* width */
+::-webkit-scrollbar {
+	width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	/* background: var(--theme-color); */
+	background: #555;
 }
