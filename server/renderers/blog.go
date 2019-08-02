@@ -67,13 +67,63 @@ func BlogsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err = t.Execute(w, struct {
-		PageData PageIdxes
-		Posts    db.Blogs
+		// NavIdxes [][]int
+		NavArray   []NavArray
+		NavCurrent int
+		Posts      db.Blogs
 	}{
-		PageData: num,
-		Posts:    bs,
+		NavArray:   getNavArray(num),
+		NavCurrent: num.Current,
+		Posts:      bs,
 	})
 	if err != nil {
 		writeErr(w, 500, err)
 	}
+}
+
+/*
+NavArray struct holds each element
+of nav-tool to be shown in the view
+*/
+type NavArray struct {
+	B bool
+	V int
+}
+
+/*
+getNavArray returns the desired navigation page number array
+*/
+func getNavArray(idxs PageIdxes) []NavArray {
+	arr := []NavArray{}
+
+	var lf int8 // int that keep tracks how many of last iretations are consecutively false
+	var cf bool // bool that if more false to be added in the array or not
+
+	for i := 0; i < idxs.Last+1; i++ {
+		if i-1 == idxs.Current || i == idxs.Current || i+1 == idxs.Current {
+			arr = append(arr, NavArray{B: true, V: i})
+			lf = 0
+			cf = true
+		} else if i+1 == idxs.Last || i == idxs.Last {
+			arr = append(arr, NavArray{B: true, V: i})
+			lf = 0
+			cf = true
+		} else if i == 0 {
+			arr = append(arr, NavArray{B: true, V: i})
+			lf = 0
+			cf = true
+		} else {
+			if cf {
+				arr = append(arr, NavArray{B: false, V: i})
+			}
+
+			lf++
+		}
+
+		if lf == 1 {
+			cf = false
+		}
+	}
+
+	return arr
 }

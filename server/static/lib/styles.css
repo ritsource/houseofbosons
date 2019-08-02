@@ -66,6 +66,7 @@ textarea:focus {
 	padding: 16px 40px;
 	/* border: 1px solid red; */
 	position: fixed;
+	background: white;
 }
 
 .nav-link {

@@ -1,4 +1,4 @@
-.Flex-Row-Space-Center,
+.Flex-Row-Center,
 .Flex-Row-Space-Between,
 .Flex-Row-Start,
 .Flex-Row-End {
@@ -7,7 +7,7 @@
 	align-items: center;
 }
 
-.Flex-Row-Space-Center {
+.Flex-Row-Center {
 	justify-content: center;
 }
 

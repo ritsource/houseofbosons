@@ -25,6 +25,21 @@
           {{end}}
           
           {{template "footer"}}
+
+          <div class="Posts-Page-List-Page-Navigator Flex-Row-Center">
+
+            {{$curr := .NavCurrent}}
+            {{range $i, $a := .NavArray}}
+              {{if .B}}
+                <button navto="{{.V}}" class="Posts-Page-Navigator-Btn {{if eq .V $curr}}Posts-Page-Navigator-Btn-Current{{end}}">{{.V}}</button>
+              {{else}}
+                <button class="Posts-Page-Navigator-Dot"></button>
+                <button class="Posts-Page-Navigator-Dot"></button>
+                <button class="Posts-Page-Navigator-Dot"></button>
+              {{end}}
+            {{end}}
+            
+          </div>
         </div>
         <div class="Posts-Page-Tools">
           <p class="Posts-Page-Tools-Header">Filter by Topics</p>

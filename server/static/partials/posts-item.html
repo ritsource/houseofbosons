@@ -7,9 +7,9 @@
         <div>
             {{$parentid := .IDStr}}
             {{range $i, $a := .SubBlogs}}
-                <div class="Post-Item-Sub" {{if gt $i 1}}style="display: none"{{else}}style="display: block"{{end}}>
-                    <a href="/thread/{{$parentid}}?index={{$i}}" ><h3 class="Post-Item-Sub-Title">{{$i}} - {{$a.Title}}</h3></a>
-                    <p class="Post-Item-Sub-Desc">{{.Description}}</p>
+                <div class="Posts-Item-Sub" {{if gt $i 1}}style="display: none"{{else}}style="display: block"{{end}}>
+                    <a href="/thread/{{$parentid}}?index={{$i}}" ><h3 class="Posts-Item-Sub-Title">{{$i}} | {{$a.Title}}</h3></a>
+                    <p class="Posts-Item-Sub-Desc">{{.Description}}</p>
                     <p class="Posts-Item-Sub-Info">
                         <span>{{if .FormattedDate}} <i class="fas fa-calendar-day"></i> {{.FormattedDate}}{{end}}</span>
                         <span><i class="fas fa-thumbs-up"></i>{{.Likes}}</span>
