@@ -24,8 +24,6 @@
             {{range .Posts}}
             {{template "posts-item" .}}
             {{end}}
-            
-            {{template "footer"}}
           </div>
           <div class="Posts-Page-List-Page-Navigator Flex-Row-Center">
 
@@ -46,6 +44,9 @@
           <p class="Posts-Page-Tools-Header">Filter by Topics</p>
           <div class="Posts-Page-Tools-Option-Box">
 
+            {{if .TopicSel}}
+              <div class="Option-Btn-All"><a href="/posts">All</a></div>          
+            {{end}}
             {{$selected := .TopicSel}}
             {{range .Topics}}
               <div class="Option-Btn {{if eq .Title $selected}}Option-Selected{{end}}"><a disabled="true" >{{.Title}}</a></div>
@@ -54,6 +55,8 @@
         </div>
 
     </div>   
+            
+    {{template "footer"}}
 
     <script src="/static/lib/main.js"></script>
 </body>

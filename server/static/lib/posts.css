@@ -21,13 +21,15 @@
 	text-align: left;
 }
 
-.Posts-Page-Tools-Option-Box .Option-Btn {
+.Posts-Page-Tools-Option-Box .Option-Btn,
+.Posts-Page-Tools-Option-Box .Option-Btn-All {
 	margin: 3px 6px;
 	float: left;
 	cursor: pointer;
 }
 
-.Posts-Page-Tools-Option-Box .Option-Btn a {
+.Posts-Page-Tools-Option-Box .Option-Btn a,
+.Posts-Page-Tools-Option-Box .Option-Btn-All a {
 	color: var(--text-color-3);
 	font-size: 0.9rem;
 }
@@ -58,10 +60,10 @@
 	color: var(--theme-color) !important;
 }
 
-.Posts-Item-Title:hover,
+/* .Posts-Item-Title:hover,
 .Posts-Item-Sub-Title:hover {
 	color: var(--theme-color-m-0) !important;
-}
+} */
 
 .Posts-Item-Desc,
 .Posts-Item-Sub-Desc,
@@ -124,7 +126,7 @@
 	font-size: 0.9rem;
 	letter-spacing: 0.2px;
 	color: var(--text-color-3);
-	border: 1px solid var(--text-color-3);
+	border: 1px solid var(--text-color-4);
 	background: white;
 
 	width: 30px;
@@ -139,7 +141,7 @@
 	background: var(--theme-color-m-0);
 	color: white;
 	border: 0px solid white;
-	background-image: linear-gradient(to bottom, var(--theme-color), var(--theme-color-m-0));
+	background: var(--theme-color);
 
 	width: 40px;
 	height: 40px;

@@ -35,15 +35,10 @@
 	font-size: 0.9rem;
 	letter-spacing: 0.2px;
 	color: white;
-	background-image: linear-gradient(to bottom, var(--theme-color), var(--theme-color-m-0));
-	border: 0px solid white;
-	padding: 8px 16px;
+	background: var(--theme-color);
+	border: 0px solid var(--theme-color);
+	padding: 8px 14px;
 	border-radius: 4px;
 
 	cursor: pointer;
-}
-
-.Type-0-Btn-Blue:hover {
-	/* background: var(--theme-color-m-0); */
-	background-image: linear-gradient(to bottom, var(--theme-color), var(--theme-color-m-0) 20%);
 }

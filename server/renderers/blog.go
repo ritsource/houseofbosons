@@ -37,7 +37,12 @@ func BlogsHandler(w http.ResponseWriter, r *http.Request) {
 	var bs db.Blogs
 
 	// mongodb filter
-	mgoSelector := bson.M{"topics": bson.M{"$all": []string{topic}}, "is_deleted": false, "is_public": true}
+	var mgoSelector bson.M
+	if topic != "" {
+		mgoSelector = bson.M{"topics": bson.M{"$all": []string{topic}}, "is_deleted": false, "is_public": true}
+	} else {
+		mgoSelector = bson.M{"is_deleted": false, "is_public": true}
+	}
 
 	// reading the number of documents from database
 	nbs, err := bs.Count(mgoSelector)
