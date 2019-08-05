@@ -1,6 +1,12 @@
 package renderers
 
 import (
+	"github.com/microcosm-cc/bluemonday"
+	"github.com/russross/blackfriday"
+	"fmt"
+	"gopkg.in/mgo.v2"
+	"io/ioutil"
+	"strings"
 	"math"
 	"net/http"
 	"strconv"
@@ -11,13 +17,109 @@ import (
 )
 
 /*
-PageIdxes holds values related to page-navigation in `/posts` handler.
-Last, is the lastest possible page, and Current represents the currently
-requested page for by the client
+GetDocument does
 */
-type PageIdxes struct {
-	Last    int
-	Current int
+func GetDocument(src string) ([]byte, error) {
+	resp, err := http.Get(src)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	return ioutil.ReadAll(resp.Body)
+}
+
+/*
+BlogHandler renders
+*/
+func BlogHandler(w http.ResponseWriter, r *http.Request) {
+	// reading the Blog-ID from URL path  
+	pts := strings.Split(r.URL.Path, "/")
+
+	/*
+	Also, because the handler pattern is has a `/` at the
+	end of the string (like `/posts/`), we don't need to
+	be worried about length of `pts` to be less than 3
+	*/
+
+	idstr := pts[2] // the Blog-ID
+
+	// if the Blog-ID is empty then redirect to `/posts` route
+	if idstr == "" {
+		http.Redirect(w, r, "/posts", http.StatusSeeOther)
+		return
+	}
+
+	// reading from blog-document database
+	var b db.Blog
+	err := b.Read(bson.M{"id_str": idstr, "is_deleted": false, "is_public": true}, bson.M{})
+	switch err {
+	case mgo.ErrNotFound:
+		// if there's no piblic-blog found with requested IDStr, then rendering a 404-Not-Found error
+		renderErr(w, 404, fmt.Sprintf("Post \"%v\" Not Found", idstr))
+	case nil:
+		// if `err == nil` everything's fine
+	default:
+		// some internal errorerror
+		renderErr(w, 500, fmt.Sprintf("Sorry, Unable to Read Data"))
+		return
+	}
+
+	// if series then redirecting to appropriate `/thread/:id` route
+	if b.IsSeries {
+		http.Redirect(w, r, fmt.Sprintf("/thread/%v", idstr), http.StatusSeeOther)
+		return
+	}
+
+	// source document type
+	var src string
+	switch b.DocType {
+	case db.DocTypeMD:
+		src = b.MDSrc
+	case db.DocTypeHTML:
+		src = b.HTMLSrc
+	}
+
+	// reading the source document
+	doc, err := GetDocument(src)
+	if err != nil {
+		renderErr(w, 422, fmt.Sprintf("Sorry, Unable to Find the Document"))
+	}
+
+	// parsing document data (html or markdown) into HTML (unsafe)
+	var unsafe []byte
+	if b.DocType == db.DocTypeMD {
+		unsafe = blackfriday.MarkdownCommon(doc) // generating HTML from Markdown
+	} else {
+		unsafe = doc
+	}
+
+	// document HTML
+	html := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
+
+	// parsing templates
+	t, err := template.ParseFiles(
+		"static/pages/each-post.html",
+		"static/partials/header.html",
+		"static/partials/footer.html",
+	)
+	if err != nil {
+		renderErr(w, 500, "Internal Server Error")
+		return
+	}
+
+	// executing template
+	err = t.Execute(w, struct {
+		Post    db.Blog
+		HTML    string
+	}{
+		Post:    b,
+		HTML:    string(html),
+	})
+
+	if err != nil {
+		writeErr(w, 500, err)
+	}
 }
 
 /*
@@ -103,6 +205,16 @@ func BlogsHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		writeErr(w, 500, err)
 	}
+}
+
+/*
+PageIdxes holds values related to page-navigation in `/posts` handler.
+Last, is the lastest possible page, and Current represents the currently
+requested page for by the client
+*/
+type PageIdxes struct {
+	Last    int
+	Current int
 }
 
 /*

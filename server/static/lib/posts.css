@@ -1,10 +1,18 @@
-.Posts-Page-Body {
+.Posts-Page-Body,
+.Each-Post-Page-Body {
 	min-height: calc(100vh - 60px*2);
 	padding: var(--navbar-height);
+	padding: 70px 100px 50px 100px;
+}
+.Posts-Page-Body {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	padding: 70px 100px 50px 100px;
+}
+.Each-Post-Page-Body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .Posts-Page-List {
@@ -154,4 +162,145 @@
 	padding: 1px;
 	border: 0px solid white;
 	margin: 0px 2px;
+}
+
+/* Single Post Page */
+
+.Each-Post-Header {
+	margin-bottom: 20px;
+	width: 800px;
+}
+
+.Each-Post-Header h1 {
+	color: var(--theme-color);
+}
+
+.Social-Share-Btn-FB,
+.Social-Share-Btn-TW {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+
+	color: white;
+	border: 0px solid white;
+	font-size: 0.8rem;
+	font-weight: normal;
+	border-radius: 4px;
+	padding: 0px 6px;
+	margin: 5px 5px;
+	height: 20px;
+	text-decoration: none !important;
+}
+
+.Social-Share-Btn-FB i {
+	margin-right: 6px;
+}
+.Social-Share-Btn-TW i {
+	margin-right: 5px;
+}
+
+.Social-Share-Btn-FB {
+	background: #3b5998;
+}
+
+.Social-Share-Btn-TW {
+	background: #1da1f2;
+}
+
+.Each-Post-FormattedDate {
+	font-size: 0.9rem;
+	color: var(--text-color-3);
+	margin-right: 5px;
+	/* border: 1px solid red; */
+	/* margin-top: -8px; */
+}
+
+.markdown-body {
+	width: 800px;
+	padding: 0px;
+	margin: 0px;
+	color: var(--text-color-B);
+	font-family: "Ubuntu", sans-serif;
+	font-weight: normal;
+	text-rendering: optimizeLegibility;
+	/* text-align: center; */
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+	margin: 0px;
+	padding: 0px;
+	border-bottom: 0px solid white;
+	color: var(--text-color-2);
+}
+
+.markdown-body h1 {
+	font-size: 1.5rem;
+	margin: 20px 0px;
+}
+
+.markdown-body h2 {
+	font-size: 1.3rem;
+	margin-top: 10px;
+}
+
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+	font-weight: bold;
+	font-size: 1rem;
+	margin-top: 10px;
+}
+
+.markdown-body h5,
+.markdown-body h6 {
+	font-weight: bold;
+	font-size: 0.875rem;
+}
+
+.markdown-body p,
+.markdown-body li {
+	font-size: 1rem;
+	word-spacing: 1px;
+	color: var(--text-color-B);
+	line-height: 22px;
+}
+
+.markdown-body p {
+	margin: 10px 0px;
+}
+
+.markdown-body a {
+	color: var(--theme-color);
+	text-decoration: none;
+}
+.markdown-body a:hover {
+	text-decoration: underline;
+}
+
+.markdown-body pre {
+	background: #f0f8ff;
+}
+
+.markdown-body div {
+	/* div is by default 100% width */
+	text-align: center;
+}
+
+.markdown-body img {
+	margin: 20px auto;
+}
+
+.markdown-body blockquote {
+	width: 100%;
+	margin-left: 0px;
+	margin-right: 0px;
+	border-left: 3px solid var(--theme-color);
+	padding-left: 10px;
 }
