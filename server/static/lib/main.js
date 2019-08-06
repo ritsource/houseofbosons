@@ -78,6 +78,30 @@ Object.values(OptionBtns).map((el) => {
 	);
 });
 
-// NavigateToPage(6);
+// to handle like!
+const LikeBtns = document.getElementsByClassName('Like-Btn');
 
-// func
+Object.values(LikeBtns).map((el) => {
+	var id = el.attributes.postid.value;
+	var v = localStorage.getItem(id);
+
+	if (v) {
+		el.className += ' Like-Btn-Liked';
+	}
+
+	el.addEventListener(
+		'click',
+		function(e) {
+			console.log('fukc');
+
+			if (localStorage.getItem(id)) {
+				localStorage.removeItem(id);
+				el.className += 'Like-Btn';
+			} else {
+				localStorage.setItem(id, true);
+				el.className += ' Like-Btn-Liked';
+			}
+		},
+		false
+	);
+});

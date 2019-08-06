@@ -12,7 +12,7 @@
                     <p class="Posts-Item-Sub-Desc">{{.Description}}</p>
                     <p class="Posts-Item-Sub-Info">
                         <span>{{if .FormattedDate}} <i class="fas fa-calendar-day"></i> {{.FormattedDate}}{{end}}</span>
-                        <span><i class="fas fa-thumbs-up"></i>{{.Likes}}</span>
+                        <span class="Like-Btn" postid="{{$parentid}}{{$i}}"><i class="fas fa-thumbs-up"></i>Like</span>
                     </p>
                 </div>
             {{end}}
@@ -30,7 +30,7 @@
     <p class="Posts-Item-Info">
         {{if not .IsSeries}}
             <span>{{if .FormattedDate}} <i class="fas fa-calendar-day"></i> {{.FormattedDate}}{{end}}</span>
-            <span><i class="fas fa-thumbs-up"></i>{{.Likes}}</span>
+            <span class="Like-Btn" postid={{.IDStr}}><i class="fas fa-thumbs-up"></i>Like</span>
         {{end}}
     </p>
 </div>

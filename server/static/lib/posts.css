@@ -114,6 +114,24 @@
 	margin-top: 8px;
 }
 
+.Posts-Item-Info .Like-Btn,
+.Posts-Item-Sub-Info .Like-Btn {
+	cursor: pointer;
+}
+
+.Posts-Item-Info .Like-Btn-Liked,
+.Posts-Item-Sub-Info .Like-Btn-Liked,
+.Posts-Item-Info .Like-Btn-Liked i,
+.Posts-Item-Sub-Info .Like-Btn-Liked i {
+	color: var(--theme-color);
+}
+
+/* .Posts-Item-Info .Like-Btn-Liked,
+.Posts-Item-Sub-Info .Like-Btn-Liked {
+	color: var(--theme-color);
+	border: 1px solid red;
+} */
+
 .Posts-Item-Series-Toggle-Btn-99 {
 	border: 0px solid white;
 	color: var(--theme-color) !important;
@@ -217,7 +235,7 @@
 }
 
 .markdown-body {
-	width: 800px;
+	width: var(--article-body-width);
 	padding: 0px;
 	margin: 0px;
 	color: var(--text-color-B);
@@ -303,4 +321,52 @@
 	margin-right: 0px;
 	border-left: 3px solid var(--theme-color);
 	padding-left: 10px;
+}
+
+.Each-Post-Floating-Div {
+	position: fixed;
+	right: calc((50vw - 400px) / 2 - 25px); /* var(--article-body-width) / 2 -> 400px */
+	/* bottom: calc((50vw - 400px) / 2 - 25px - 20px); */
+	bottom: 0;
+	height: 170px;
+}
+
+.Each-Post-Floating-Div p {
+	font-size: 1rem;
+	letter-spacing: 0.2px;
+	color: var(--text-color-3);
+	text-align: center;
+	margin-top: 5px;
+}
+
+.Each-Post-Floating-Div .Like-Btn {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	color: var(--theme-color);
+	border: 2px solid var(--theme-color);
+	background: white;
+	font-size: 20px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	/* cannot use any other class in like-btn other than like-btn */
+
+	cursor: pointer;
+}
+
+.Each-Post-Floating-Div .Like-Btn-Liked {
+	color: white;
+	border: 2px solid var(--theme-color);
+	background: var(--theme-color);
+}
+
+/* .Each-Post-Floating-Div .Like-Btn-Liked:hover {
+	background: var(--theme-red);
+	border: 2px solid var(--theme-red);
+} */
+
+@media (max-width: 500px) {
 }

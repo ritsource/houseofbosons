@@ -3,6 +3,8 @@
 	--theme-color: #00a0dc;
 	--theme-color-m-1-dark: #24252a;
 
+	--theme-red: #dd4b39;
+
 	--text-color-0: #333333;
 	--text-color-1: #424242;
 	--text-color-2: #555555;
@@ -11,4 +13,6 @@
 	--text-color-B: #606060;
 
 	--navbar-height: 60px;
+
+	--article-body-width: 800px;
 }
