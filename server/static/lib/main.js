@@ -125,3 +125,53 @@ window.addEventListener(
 	},
 	true
 );
+
+// share button
+
+function copyToClipboard(text) {
+	var dum = document.createElement('input');
+	document.body.appendChild(dum);
+	dum.value = text;
+	dum.select();
+	document.execCommand('copy');
+	document.body.removeChild(dum);
+}
+
+function openInNewTab(url) {
+	var win = window.open(url, '_blank');
+	win.focus();
+}
+
+const shareBtns = [
+	{
+		className: 'Social-Share-Btn-FB',
+		clickFunc: function(event) {
+			const fburl = 'https://www.facebook.com/sharer/sharer.php?u=' + window.location.href;
+			openInNewTab(fburl);
+		}
+	},
+	{
+		className: 'Social-Share-Btn-TW',
+		clickFunc: function(event) {
+			const twurl = 'https://twitter.com/intent/tweet?text=' + window.location.href;
+			openInNewTab(twurl);
+		}
+	},
+	{
+		className: 'Social-Share-Btn-Copy',
+		clickFunc: function(event) {
+			copyToClipboard(window.location.href);
+			event.target.innerHTML = '<i class="fas fa-link"></i>Copied';
+			setTimeout(function() {
+				event.target.innerHTML = '<i class="fas fa-link"></i>Copy';
+			}, 2000);
+		}
+	}
+];
+
+shareBtns.map((btn) => {
+	const els = document.getElementsByClassName(btn.className);
+	Object.values(els).map((el) => {
+		el.addEventListener('click', btn.clickFunc, false);
+	});
+});

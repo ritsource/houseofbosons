@@ -312,6 +312,12 @@
 
 .markdown-body pre {
 	background: #f0f8ff;
+	max-width: 100%;
+	overflow: auto;
+}
+
+.markdown-body pre code {
+	max-width: 100%;
 }
 
 .markdown-body div {
@@ -328,7 +334,7 @@
 	width: 100%;
 	margin-left: 0px;
 	margin-right: 0px;
-	border-left: 3px solid var(--theme-color);
+	border-left: 3px solid var(--text-color-4);
 	padding-left: 10px;
 }
 
@@ -397,8 +403,8 @@
 		flex-direction: column;
 	}
 
-	#Footer .Footer-Sec {
-		margin-top: calc(5px);
+	#Footer .House-Of-Bosons-Logo {
+		display: none;
 	}
 
 	.Posts-Page-Body {

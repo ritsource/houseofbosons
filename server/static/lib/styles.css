@@ -187,22 +187,28 @@ textarea:focus {
 }
 
 /* width */
-::-webkit-scrollbar {
+::-webkit-scrollbar,
+::-webkit-scrollbar:horizontal {
 	width: 5px;
+	height: 5px;
 }
 
 /* Track */
-::-webkit-scrollbar-track {
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-track:horizontal {
 	background: #f1f1f1;
 }
 
+/* background: red; */
+
 /* Handle */
-::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb:horizontal {
 	background: #888;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
 	/* background: var(--theme-color); */
-	background: var(--theme-color-m-1-dark);
+	background: #555;
 }
