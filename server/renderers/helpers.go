@@ -22,6 +22,7 @@ func renderErr(w http.ResponseWriter, status int, message string) {
 		"static/pages/error.html",
 		"static/partials/header.html",
 		"static/partials/footer.html",
+		"static/partials/head-links.html",
 	)
 	if err != nil {
 		writeErr(w, 500, err)

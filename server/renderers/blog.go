@@ -1,16 +1,17 @@
 package renderers
 
 import (
-	"github.com/microcosm-cc/bluemonday"
-	"github.com/russross/blackfriday"
 	"fmt"
-	"gopkg.in/mgo.v2"
 	"io/ioutil"
-	"strings"
 	"math"
 	"net/http"
 	"strconv"
+	"strings"
 	"text/template"
+
+	"github.com/microcosm-cc/bluemonday"
+	"github.com/russross/blackfriday"
+	"gopkg.in/mgo.v2"
 
 	"github.com/houseofbosons/houseofbosons/server/db"
 	"gopkg.in/mgo.v2/bson"
@@ -33,13 +34,13 @@ func GetDocument(src string) ([]byte, error) {
 BlogHandler renders
 */
 func BlogHandler(w http.ResponseWriter, r *http.Request) {
-	// reading the Blog-ID from URL path  
+	// reading the Blog-ID from URL path
 	pts := strings.Split(r.URL.Path, "/")
 
 	/*
-	Also, because the handler pattern is has a `/` at the
-	end of the string (like `/posts/`), we don't need to
-	be worried about length of `pts` to be less than 3
+		Also, because the handler pattern is has a `/` at the
+		end of the string (like `/posts/`), we don't need to
+		be worried about length of `pts` to be less than 3
 	*/
 
 	idstr := pts[2] // the Blog-ID
@@ -102,6 +103,7 @@ func BlogHandler(w http.ResponseWriter, r *http.Request) {
 		"static/pages/each-post.html",
 		"static/partials/header.html",
 		"static/partials/footer.html",
+		"static/partials/head-links.html",
 	)
 	if err != nil {
 		renderErr(w, 500, "Internal Server Error")
@@ -110,11 +112,11 @@ func BlogHandler(w http.ResponseWriter, r *http.Request) {
 
 	// executing template
 	err = t.Execute(w, struct {
-		Post    db.Blog
-		HTML    string
+		Post db.Blog
+		HTML string
 	}{
-		Post:    b,
-		HTML:    string(html),
+		Post: b,
+		HTML: string(html),
 	})
 
 	if err != nil {
@@ -182,6 +184,7 @@ func BlogsHandler(w http.ResponseWriter, r *http.Request) {
 		"static/partials/posts-item.html",
 		"static/partials/header.html",
 		"static/partials/footer.html",
+		"static/partials/head-links.html",
 	)
 	if err != nil {
 		writeErr(w, 500, err)

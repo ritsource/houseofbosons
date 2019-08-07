@@ -1,0 +1,110 @@
+#Navbar {
+	width: calc(100vw - 80px);
+	padding: 16px 40px;
+	position: fixed;
+	background: white;
+}
+
+.nav-link {
+	font-size: 1rem;
+	text-decoration: none !important;
+	color: var(--text-color-2) !important;
+	margin-left: 20px;
+}
+
+.nav-link:hover {
+	color: var(--text-color-0) !important;
+	text-decoration: underline !important;
+}
+
+#Footer {
+	/* background: var(--theme-color-m-1-dark); */
+	padding: 16px 40px;
+	border-top: 1px solid var(--text-color-4);
+	/* align-items: flex-start; */
+}
+
+.House-Of-Bosons-Logo {
+	width: auto;
+	display: inline-block;
+}
+
+.House-Of-Bosons-Logo-Circle {
+	width: 1rem;
+	height: 1rem;
+	border-radius: 50%;
+	background: var(--theme-color);
+}
+
+.House-Of-Bosons-Logo-Text {
+	font-size: 18px;
+	line-height: 30px;
+	/* color: rgb(230, 230, 230); */
+	color: var(--text-color-2);
+	margin-left: 8px;
+}
+
+.House-Of-Bosons-Logo-Text span {
+	line-height: 30px;
+	font-size: 1rem;
+	/* letter-spacing: px; */
+	/* font-weight: bold; */
+	vertical-align: middle;
+}
+
+.House-Of-Bosons-Logo-Text .HOB-Logo-B {
+	font-size: 1.1rem;
+	letter-spacing: 0.3px;
+	font-weight: normal;
+}
+
+.Footer-Sec {
+	text-align: left;
+	/* width: 200px; */
+}
+
+.Footer-Sec-Header {
+	font-size: 18px;
+	margin: 6px;
+}
+
+.Footer-Sec-Social-Btn {
+	color: var(--text-color-3);
+	border: 1px solid var(--text-color-4);
+	background: white;
+
+	width: 30px;
+	height: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	margin: 6px;
+
+	/* margin: 0px 2px; */
+}
+.Footer-Sec-Social-Btn:hover {
+	color: white;
+	text-decoration: none;
+	background: var(--theme-color);
+	border: 1px solid var(--theme-color);
+}
+.Footer-Sec-Social-Btn i {
+	font-size: 0.8rem;
+}
+
+@media (max-width: 700px) {
+	#Navbar {
+		width: calc(100vw - 40px) !important;
+		max-width: calc(100vw - 32px) !important;
+		padding: 16px 16px;
+	}
+
+	#Footer {
+		flex-direction: column;
+	}
+
+	#Footer .House-Of-Bosons-Logo {
+		display: none;
+	}
+}

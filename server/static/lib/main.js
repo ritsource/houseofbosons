@@ -164,7 +164,7 @@ const shareBtns = [
 			event.target.innerHTML = '<i class="fas fa-link"></i>Copied';
 			setTimeout(function() {
 				event.target.innerHTML = '<i class="fas fa-link"></i>Copy';
-			}, 2000);
+			}, 1000);
 		}
 	}
 ];

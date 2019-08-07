@@ -3,33 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Source+Sans+Pro|Ubuntu&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
-  <link rel='shortcut icon' type='image/x-icon' href="/static/favicon.ico"/>
-  <link rel="stylesheet" href="/static/lib/var1.css">
-  <link rel="stylesheet" href="/static/lib/classes.css">
-  <link rel="stylesheet" href="/static/lib/styles.css">
-  <link rel="stylesheet" href="/static/lib/posts.css">
-  <script async src="/static/lib/fontawesome.js"></script>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">  
+  {{template "head-links"}}
   <title>House of Bosons</title>
 </head>
 <body>
 
     {{template "header"}} 
     
-    <div id="Index-Page-Content-0" class="Flex-Row-Center">
-      <div id="Index-Page-Options-0">
+    <div class="Index-Page-Body Flex-Row-Center">
+      <div id="Index-Page-Options">
         <h1>House of Bosons</h1>
         <p>A Science-blog on Physics, Math, Astronomy & More.</p>
         <div>
           
           <a href="/posts"><button class="Type-0-Btn-Blue">Read Blogs</button></a>
-          <a id="Index-Page-Options-Side-Link-0" href="/about">Learn more</a>
+          <a id="Index-Page-Options-Side-Link" href="/about">Learn more</a>
         </div>
       </div>
-      <object id="Index-Svg-Reading-0" data="/static/undraw-reading.svg" type="image/svg+xml" width="400"></object>
+      <object id="Index-Svg-Reading" data="/static/undraw-reading.svg" type="image/svg+xml" width="400"></object>
     </div>
 
     {{template "footer"}} 

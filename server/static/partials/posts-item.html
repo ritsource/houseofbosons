@@ -1,16 +1,16 @@
 {{define "posts-item"}}
-<div class="Posts-Item {{if .IsSeries}}Posts-Item-Series{{end}}">
+<div class="Posts-List-Item {{if .IsSeries}}Posts-List-Item-Series{{end}}">
   {{if .IsSeries}}
-        <a href="/thread/{{.IDStr}}?index=0" ><h2 class="Posts-Item-Title">{{.Title}}</h2></a>
-        <p class="Posts-Item-Desc">{{.Description}}</p>
+        <a href="/thread/{{.IDStr}}?index=0" ><h2 class="Posts-List-Item-Title">{{.Title}}</h2></a>
+        <p class="Posts-List-Item-Desc">{{.Description}}</p>
         
         <div>
             {{$parentid := .IDStr}}
             {{range $i, $a := .SubBlogs}}
-                <div class="Posts-Item-Sub" {{if gt $i 1}}style="display: none"{{else}}style="display: block"{{end}}>
-                    <a href="/thread/{{$parentid}}?index={{$i}}" ><h3 class="Posts-Item-Sub-Title">{{$i}} | {{$a.Title}}</h3></a>
-                    <p class="Posts-Item-Sub-Desc">{{.Description}}</p>
-                    <p class="Posts-Item-Sub-Info">
+                <div class="Posts-List-Item-Sub" {{if gt $i 1}}style="display: none"{{else}}style="display: block"{{end}}>
+                    <a href="/thread/{{$parentid}}?index={{$i}}" ><h3 class="Posts-List-Item-Sub-Title">{{$i}} | {{$a.Title}}</h3></a>
+                    <p class="Posts-List-Item-Sub-Desc">{{.Description}}</p>
+                    <p class="Posts-List-Item-Sub-Info">
                         <span>{{if .FormattedDate}} <i class="fas fa-calendar-day"></i> {{.FormattedDate}}{{end}}</span>
                         <span class="Like-Btn" postid="{{$parentid}}{{$i}}"><i class="fas fa-thumbs-up"></i>Like</span>
                     </p>
@@ -18,16 +18,16 @@
             {{end}}
             {{$length := len .SubBlogs}}
             {{if gt $length 2}}
-                <p class="Posts-Item-Series-Toggle-Btn-99">...more</p>
+                <p class="Posts-List-Item-Series-Toggle-Btn-99">...more</p>
             {{end}}
         </div>
 
     {{else}}
-        <a href="/post/{{.IDStr}}" ><h2 class="Posts-Item-Title">{{.Title}}</h2></a>
-        <p class="Posts-Item-Desc">{{.Description}}</p>
+        <a href="/post/{{.IDStr}}" ><h2 class="Posts-List-Item-Title">{{.Title}}</h2></a>
+        <p class="Posts-List-Item-Desc">{{.Description}}</p>
     {{end}}
 
-    <p class="Posts-Item-Info">
+    <p class="Posts-List-Item-Info">
         {{if not .IsSeries}}
             <span>{{if .FormattedDate}} <i class="fas fa-calendar-day"></i> {{.FormattedDate}}{{end}}</span>
             <span class="Like-Btn" postid={{.IDStr}}><i class="fas fa-thumbs-up"></i>Like</span>

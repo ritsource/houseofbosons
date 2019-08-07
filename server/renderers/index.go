@@ -16,6 +16,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 		"static/pages/index.html",
 		"static/partials/header.html",
 		"static/partials/footer.html",
+		"static/partials/head-links.html",
 	)
 	if err != nil {
 		writeErr(w, 500, err)

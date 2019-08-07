@@ -7,7 +7,7 @@
 	align-items: center;
 }
 
-.Flex-Row-Center {
+.c {
 	justify-content: center;
 }
 
@@ -23,10 +23,18 @@
 	justify-content: flex-end;
 }
 
+.Flex-Column-Center,
 .Flex-Column-Space-Between {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
+
+.Flex-Column-Center {
+	justify-content: center;
+}
+
+.Flex-Column-Space-Between {
 	justify-content: space-between;
 }
 
