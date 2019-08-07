@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-// NotFoundHandler
+// NotFoundHandler .
 func NotFoundHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "page not found")
+	renderErr(w, 404, fmt.Sprintf("Page Not Found"))
 }

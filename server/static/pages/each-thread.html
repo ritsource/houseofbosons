@@ -6,13 +6,13 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   {{template "head-links"}}
 
-  <meta name="og:title" property="og:title" content="{{.Post.Title}}">
+  <meta name="og:title" property="og:title" content="{{.SubPost.Title}}">
   <meta name="og:type" property="og:type" content="article">
-  <meta name="og:description" property="og:description" content="{{.Post.Description}}">
-  <meta name="og:image" property="og:image" content={{.Post.Thumbnail}}>
-  <meta name="description" content="{{.Post.Description}}">
+  <meta name="og:description" property="og:description" content="{{.SubPost.Description}}">
+  <meta name="og:image" property="og:image" content={{.SubPost.Thumbnail}}>
+  <meta name="description" content="{{.SubPost.Description}}">
 
-  <title>{{.Post.Title}} | House of Bosons</title>
+  <title>{{.SubPost.Title}} | House of Bosons</title>
 </head>
 <body>
 
@@ -20,10 +20,10 @@
 
     <div class="Each-Post-Page-Body Flex-Column-Center">
       <header class="Each-Post-Header">
-        <h1>{{.Post.Title}}</h1>
-        <!-- <p></p> -->
+        <h1>{{.SubPost.Title}}</h1>
+        <p>Part {{.OneBasedIdx}} of <strong>{{.Post.Title}}</strong></p>
         <div class="Flex-Row-Start">
-          <span class="Each-Post-FormattedDate">{{.Post.FormattedDate}}</span>
+          <span class="Each-Post-FormattedDate">{{.SubPost.FormattedDate}}</span>
           <button class="Social-Share-Btn-FB Flex-Row-Center"><i class="fab fa-facebook-square"></i> Share</button>
           <button class="Social-Share-Btn-TW Flex-Row-Center"><i class="fab fa-twitter"></i> Tweet</button>
         </div>
@@ -34,7 +34,7 @@
       </article>
 
       <div class="Each-Post-Floating-Div">
-        <button class="Like-Btn" postid={{.Post.IDStr}}>
+        <button class="Like-Btn" postid="{{.Post.IDStr}}{{.NavCurrent}}">
           <i class="fas fa-thumbs-up"></i>
         </button>
         <p>Like</p>
@@ -45,6 +45,19 @@
         <button class="Social-Share-Btn-TW Flex-Row-Center"><i class="fab fa-twitter"></i>Tweet</button>
         <button class="Social-Share-Btn-Copy Flex-Row-Center"><i class="fas fa-link"></i>Copy</button>
       </div>
+    </div>
+
+    <div class="Posts-Page-List-Page-Navigator Flex-Row-Center">
+      {{$curr := .NavCurrent}}
+      {{range $i, $a := .NavArray}}
+        {{if .B}}
+          <button navvar="index" navto="{{.V}}" class="Posts-Page-Navigator-Btn {{if eq .V $curr}}Posts-Page-Navigator-Btn-Current{{end}}">{{.V}}</button>
+        {{else}}
+          <button navvar="index" class="Posts-Page-Navigator-Dot"></button>
+          <button navvar="index" class="Posts-Page-Navigator-Dot"></button>
+          <button navvar="index" class="Posts-Page-Navigator-Dot"></button>
+        {{end}}
+      {{end}}       
     </div>
             
     {{template "footer"}}

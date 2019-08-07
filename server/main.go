@@ -14,6 +14,7 @@ func main() {
 	http.HandleFunc("/", renderers.IndexHandler)
 	http.HandleFunc("/posts", renderers.BlogsHandler)
 	http.HandleFunc("/post/", renderers.BlogHandler)
+	http.HandleFunc("/thread/", renderers.ThreadHandler)
 
 	http.HandleFunc("/api", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Welcome to houseofbosons api!")

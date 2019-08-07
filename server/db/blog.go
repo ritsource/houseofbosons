@@ -41,6 +41,7 @@ type SubBlog struct {
 	Title         string `bson:"title" json:"title"`
 	Description   string `bson:"description" json:"description"`
 	FormattedDate string `bson:"formatted_date" json:"formatted_date"`
+	Thumbnail     string `bson:"thumbnail" json:"thumbnail"`
 	DocType       int8   `bson:"doc_type" json:"doc_type"`
 	MDSrc         string `bson:"md_src" json:"md_src"`
 	HTMLSrc       string `bson:"html_src" json:"html_src"`

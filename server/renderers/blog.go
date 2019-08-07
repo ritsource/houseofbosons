@@ -58,6 +58,7 @@ func BlogHandler(w http.ResponseWriter, r *http.Request) {
 	case mgo.ErrNotFound:
 		// if there's no piblic-blog found with requested IDStr, then rendering a 404-Not-Found error
 		renderErr(w, 404, fmt.Sprintf("Post \"%v\" Not Found", idstr))
+		return
 	case nil:
 		// if `err == nil` everything's fine
 	default:
@@ -85,6 +86,7 @@ func BlogHandler(w http.ResponseWriter, r *http.Request) {
 	doc, err := GetDocument(src)
 	if err != nil {
 		renderErr(w, 422, fmt.Sprintf("Sorry, Unable to Find the Document"))
+		return
 	}
 
 	// parsing document data (html or markdown) into HTML (unsafe)
@@ -125,12 +127,128 @@ func BlogHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 /*
+ThreadHandler renders
+*/
+func ThreadHandler(w http.ResponseWriter, r *http.Request) {
+	// reading the Blog-ID from URL path
+	pts := strings.Split(r.URL.Path, "/")
+	idstr := pts[2]
+
+	// if the Blog-ID is empty then redirect to `/posts` route
+	if idstr == "" {
+		http.Redirect(w, r, "/posts", http.StatusSeeOther)
+		return
+	}
+
+	// reading requested index from URL
+	index, err := strconv.Atoi(r.URL.Query().Get("index"))
+	if err != nil || index < 0 {
+		renderErr(w, 400, "Invalid Index")
+		return
+	}
+
+	// reading from blog-document database
+	var b db.Blog
+	err = b.Read(bson.M{"id_str": idstr, "is_deleted": false, "is_public": true, "is_series": true}, bson.M{})
+	switch err {
+	case mgo.ErrNotFound:
+		// if there's no piblic-blog found with requested IDStr, then rendering a 404-Not-Found error
+		renderErr(w, 404, fmt.Sprintf("Thread \"%v\" Not Found", idstr))
+		return
+	case nil:
+		// if `err == nil` everything's fine
+	default:
+		// some internal errorerror
+		renderErr(w, 500, fmt.Sprintf("Sorry, Unable to Read Data"))
+		return
+	}
+
+	// If thread doesn't include any subblog
+	if len(b.SubBlogs) == 0 {
+		renderErr(w, http.StatusNoContent, "Sorry, Empty Thread")
+		return
+	}
+
+	// If index overflow, then redirect to index 0
+	if index+1 > len(b.SubBlogs) {
+		http.Redirect(w, r, fmt.Sprintf("/thread/%v?index=0", idstr), http.StatusSeeOther)
+		return
+	}
+
+	// source document type
+	var src string
+	switch b.SubBlogs[index].DocType {
+	case db.DocTypeMD:
+		src = b.SubBlogs[index].MDSrc
+	case db.DocTypeHTML:
+		src = b.SubBlogs[index].HTMLSrc
+	}
+
+	// reading the source document
+	doc, err := GetDocument(src)
+	if err != nil {
+		renderErr(w, 422, fmt.Sprintf("Sorry, Unable to Find the Document"))
+		return
+	}
+
+	// parsing document data (html or markdown) into HTML (unsafe)
+	var unsafe []byte
+	if b.DocType == db.DocTypeMD {
+		unsafe = blackfriday.MarkdownCommon(doc) // generating HTML from Markdown
+	} else {
+		unsafe = doc
+	}
+
+	// document HTML
+	html := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
+
+	// parsing templates
+	t, err := template.ParseFiles(
+		"static/pages/each-thread.html",
+		"static/partials/header.html",
+		"static/partials/footer.html",
+		"static/partials/head-links.html",
+	)
+	if err != nil {
+		renderErr(w, 500, "Internal Server Error")
+		return
+	}
+
+	// num contains data for thread navigation
+	num := NavData{
+		Last:    len(b.SubBlogs) - 1,
+		Current: index,
+	}
+
+	// executing template
+	err = t.Execute(w, struct {
+		Post        db.Blog
+		NavArray    []NavArray
+		NavCurrent  int
+		OneBasedIdx int
+		SubPost     db.SubBlog
+		HTML        string
+	}{
+		Post:        b,
+		NavArray:    getNavArray(num),
+		NavCurrent:  index,
+		OneBasedIdx: index + 1,
+		SubPost:     b.SubBlogs[index],
+		HTML:        string(html),
+	})
+
+	if err != nil {
+		writeErr(w, 500, err)
+	}
+}
+
+/*
 BlogsHandler renders lists out all the blogs as UI for the `/posts`
 page, renders only the public `blogs` and includes page navigation
 */
 func BlogsHandler(w http.ResponseWriter, r *http.Request) {
-	nbpp := 3          // max number of blog-posts to be shown in 1 page
-	num := PageIdxes{} // num holds page index related daa
+	nbpp := 3        // max number of blog-posts to be shown in 1 page
+	num := NavData{} // num holds page index related daa
 
 	// reading the page-number from query staring
 	var err error
@@ -211,11 +329,11 @@ func BlogsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 /*
-PageIdxes holds values related to page-navigation in `/posts` handler.
+NavData holds values related to page-navigation in `/posts` handler.
 Last, is the lastest possible page, and Current represents the currently
-requested page for by the client
+requested page for by the client. Can also be used in thread-navigation
 */
-type PageIdxes struct {
+type NavData struct {
 	Last    int
 	Current int
 }
@@ -232,7 +350,7 @@ type NavArray struct {
 /*
 getNavArray returns the desired navigation page number array
 */
-func getNavArray(idxs PageIdxes) []NavArray {
+func getNavArray(idxs NavData) []NavArray {
 	arr := []NavArray{}
 
 	var lf int8 // int that keep tracks how many of last iretations are consecutively false

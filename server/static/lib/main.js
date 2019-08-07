@@ -1,7 +1,7 @@
 // Series toggling
 
 // Toggle All-Sub item view
-const toggle_btn_class = 'Posts-Item-Series-Toggle-Btn-99';
+const toggle_btn_class = 'Posts-List-Item-Series-Toggle-Btn-99';
 
 const seriesToggBtns = document.getElementsByClassName(toggle_btn_class);
 
@@ -9,6 +9,8 @@ Object.values(seriesToggBtns).map((el) => {
 	el.addEventListener(
 		'click',
 		function(e) {
+			console.log('x');
+
 			Object.values(e.target.parentNode.children).map((child, i) => {
 				if (i > 1 && child.className != toggle_btn_class) {
 					if (child.style.display === 'block') {
@@ -57,8 +59,9 @@ Object.values(NavBtns).map((el) => {
 	el.addEventListener(
 		'click',
 		function(e) {
-			var num = e.target.attributes.navto.value;
-			NewQuery('pagenum', num);
+			var navto = e.target.attributes.navto.value;
+			var navvar = e.target.attributes.navvar.value;
+			NewQuery(navvar, navto);
 		},
 		false
 	);

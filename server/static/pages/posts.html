@@ -23,11 +23,11 @@
             {{$curr := .NavCurrent}}
             {{range $i, $a := .NavArray}}
               {{if .B}}
-                <button navto="{{.V}}" class="Posts-Page-Navigator-Btn {{if eq .V $curr}}Posts-Page-Navigator-Btn-Current{{end}}">{{.V}}</button>
+                <button  navvar="pagenum" navto="{{.V}}" class="Posts-Page-Navigator-Btn {{if eq .V $curr}}Posts-Page-Navigator-Btn-Current{{end}}">{{.V}}</button>
               {{else}}
-                <button class="Posts-Page-Navigator-Dot"></button>
-                <button class="Posts-Page-Navigator-Dot"></button>
-                <button class="Posts-Page-Navigator-Dot"></button>
+                <button  navvar="pagenum" class="Posts-Page-Navigator-Dot"></button>
+                <button  navvar="pagenum" class="Posts-Page-Navigator-Dot"></button>
+                <button  navvar="pagenum" class="Posts-Page-Navigator-Dot"></button>
               {{end}}
             {{end}}       
           </div>
