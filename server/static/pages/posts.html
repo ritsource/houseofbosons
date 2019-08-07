@@ -24,8 +24,8 @@
             {{template "posts-item" .}}
             {{end}}
           </div>
+          
           <div class="Posts-Page-List-Page-Navigator Flex-Row-Center">
-
             {{$curr := .NavCurrent}}
             {{range $i, $a := .NavArray}}
               {{if .B}}
@@ -35,8 +35,7 @@
                 <button class="Posts-Page-Navigator-Dot"></button>
                 <button class="Posts-Page-Navigator-Dot"></button>
               {{end}}
-            {{end}}
-            
+            {{end}}       
           </div>
         </div>
         <div class="Posts-Page-Tools">

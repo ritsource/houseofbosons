@@ -60,7 +60,7 @@ textarea:focus {
 }
 
 #Navbar {
-	width: calc(100% - 80px);
+	width: calc(100vw - 80px);
 	/* max-height: 60px; */
 	padding: 16px 40px;
 

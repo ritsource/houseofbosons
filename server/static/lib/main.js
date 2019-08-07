@@ -105,3 +105,23 @@ Object.values(LikeBtns).map((el) => {
 		false
 	);
 });
+
+// Like btn
+const footerHeight = document.getElementById('Footer').offsetHeight;
+
+window.addEventListener(
+	'scroll',
+	function() {
+		const scrollBottom =
+			document.documentElement.scrollHeight -
+			document.documentElement.scrollTop -
+			document.documentElement.clientHeight;
+
+		if (scrollBottom <= footerHeight) {
+			document.querySelector('.Each-Post-Floating-Div').style.display = 'none';
+		} else {
+			document.querySelector('.Each-Post-Floating-Div').style.display = 'block';
+		}
+	},
+	true
+);
