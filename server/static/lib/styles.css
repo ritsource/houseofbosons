@@ -69,7 +69,7 @@ textarea:focus {
 /* Track */
 ::-webkit-scrollbar-track,
 ::-webkit-scrollbar-track:horizontal {
-	background: #f1f1f1;
+	background: #dadada;
 }
 
 /* background: red; */

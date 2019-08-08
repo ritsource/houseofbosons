@@ -24,6 +24,20 @@ func main() {
 	http.HandleFunc("/api/auth/google/callback", handlers.GoogleCallback)
 	http.HandleFunc("/api/auth/current_user", middleware.CheckAuth(handlers.CurrentUser))
 
+	http.HandleFunc("/api/post/all", handlers.CreateBlog)
+	http.HandleFunc("/api/post/new", handlers.ReadBlogs)
+	http.HandleFunc("/api/post/single", handlers.ReadBlog)
+	http.HandleFunc("/api/post/edit", handlers.EditBlog)
+	http.HandleFunc("/api/post/delete/temp", handlers.DeleteBlog)
+	http.HandleFunc("/api/post/delete/perm", handlers.DeleteBlogPrem)
+
+	http.HandleFunc("/api/post/idstr/available", handlers.CheckIDStr)
+
+	http.HandleFunc("/api/topic/new", handlers.CreateTopic)
+	http.HandleFunc("/api/topic/all", handlers.ReadTopics)
+	http.HandleFunc("/api/topic/edit", handlers.EditTopic)
+	http.HandleFunc("/api/topic/delete", handlers.DeleteTopic)
+
 	fs := http.FileServer(http.Dir("static/"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 

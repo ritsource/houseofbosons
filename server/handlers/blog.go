@@ -16,31 +16,6 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-// func init() {
-// 	b := db.Blog{
-// 		URLIDs:        []string{"blog-3", "third-blog"},
-// 		Title:         "Title-3",
-// 		Description:   "A monorepo containing all the libraries and services for House-of-Bosons, a Science-blog on Physics, Math, Astronomy & More.",
-// 		Author:        "Ritwik Saha",
-// 		FormattedDate: "21  July, 2019",
-// 		DocType:       db.DocTypeMD,
-// 		MDSrc:         "https://gitlab.com/ritwik310/blog-documents/raw/master/Write-a-Torrent-Client-in-Go-0/Write-a-Torrent-Client-in-Go-0.md",
-// 		Thumbnail:     "https://gitlab.com/ritwik310/blog-documents/raw/master/Write-a-Torrent-Client-in-Go-0/Torrent-Client-P2P-Messaging-3.png",
-// 		IsFeatured:    false,
-// 		IsPublic:      true,
-// 		IsDeleted:     false,
-// 		IsSeries:      false,
-// 	}
-
-// 	b.CreatedAt = int32(time.Now().Unix())
-
-// 	err := b.Create()
-// 	if err != nil {
-// 		logrus.Errorf("%v\n", err)
-// 		return
-// 	}
-// }
-
 /*
 CreateBlog creates a new blog from provided data read on `http.Request` body,
 the body needs to contain all required fields in json, otherwise it will be
@@ -222,4 +197,42 @@ func DeleteBlogPrem(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte("{\"message\": \"Successfully deleted\"}"))
+}
+
+/*
+CheckIDStr .
+*/
+func CheckIDStr(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		writeErr(w, 404, fmt.Errorf("%v request to %v not found", r.Method, r.URL.Path))
+		return
+	}
+
+	// retrieving id from query string
+	idstr := r.URL.Query().Get("idstr")
+	if len(idstr) == 0 {
+		writeErr(w, http.StatusBadRequest, fmt.Errorf("no idstr provided"))
+		return
+	}
+
+	// the response
+	var res struct {
+		Av bool `json:"available"`
+	}
+
+	// deleting document (permanently)
+	var b db.Blog
+	err := b.Read(bson.M{"id_str": idstr}, bson.M{})
+	switch err {
+	case mgo.ErrNotFound:
+		res.Av = true
+	case nil:
+		res.Av = false
+	default:
+		writeErr(w, 500, err)
+		return
+	}
+
+	// writing the updated data
+	writeJSON(w, res)
 }
