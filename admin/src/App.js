@@ -1,6 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { fetchAdmin } from './actions/auth_actions';
+import { FaGoogle } from 'react-icons/fa';
+import { serverAdd } from './api';
+
+import LoginBtn from './components/LoginBtn';
+import HomePage from './pages/HomePage';
+import TopicsPage from './pages/TopicsPage';
+import EachPostPage from './pages/EachPostPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 class App extends React.Component {
 	constructor(props) {
@@ -13,7 +22,6 @@ class App extends React.Component {
 	async componentDidMount() {
 		try {
 			await this.props.fetchAdmin();
-			console.log('x', this.props.auth);
 		} catch (error) {
 			console.log(error);
 		}
@@ -22,16 +30,34 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div className="App">
-				<header>
+			<div
+				style={{
+					minHeight: '100vh',
+					display: 'flex',
+					flexDirection: 'row',
+					justifyContent: 'center',
+					alignItems: 'center'
+				}}
+			>
+				<BrowserRouter>
 					{this.state.loading ? (
 						<h1>Loading...</h1>
 					) : this.props.auth ? (
-						<h1>Hello world!</h1>
+						<Switch>
+							<Route path="/" exact component={HomePage} />
+							<Route path="/post/:postid" exact component={EachPostPage} />
+							<Route path="/topics" exact component={TopicsPage} />
+							<Route component={NotFoundPage} />
+						</Switch>
 					) : (
-						<h1>Unauth</h1>
+						<a href={serverAdd + '/api/auth/google'}>
+							<LoginBtn>
+								<FaGoogle style={{ margin: '0px 10px -2px 0px' }} />
+								Login as admin
+							</LoginBtn>
+						</a>
 					)}
-				</header>
+				</BrowserRouter>
 			</div>
 		);
 	}
