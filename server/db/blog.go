@@ -27,7 +27,6 @@ type Blog struct {
 	HTMLSrc       string        `bson:"html_src" json:"html_src"`
 	Thumbnail     string        `bson:"thumbnail" json:"thumbnail"`
 	CreatedAt     int32         `bson:"created_at" json:"created_at"`
-	Likes         int           `bson:"likes" json:"likes"`
 	Topics        []string      `bson:"topics" json:"topics"`
 	IsFeatured    bool          `bson:"is_featured" json:"is_featured"`
 	IsPublic      bool          `bson:"is_public" json:"is_public"`
@@ -45,7 +44,6 @@ type SubBlog struct {
 	DocType       int8   `bson:"doc_type" json:"doc_type"`
 	MDSrc         string `bson:"md_src" json:"md_src"`
 	HTMLSrc       string `bson:"html_src" json:"html_src"`
-	Likes         int    `bson:"likes" json:"likes"`
 }
 
 /*

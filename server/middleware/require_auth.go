@@ -23,14 +23,13 @@ func CheckAuth(handler http.HandlerFunc) http.HandlerFunc {
 		if err != nil {
 			fmt.Println("x1")
 			w.WriteHeader(500)
-			w.Write([]byte("{\"message\": \"" + err.Error() + "\"}"))
+			w.Write([]byte("{\"message\": \"" + err.Error() + "\", \"message2\": \"admin unauthorized\"}"))
 			return
 		}
 
 		email, ok := session.Values["admin_email"]
 
 		if !ok {
-			fmt.Println("x2")
 			w.WriteHeader(http.StatusUnauthorized)
 			w.Write([]byte("{\"message\": \"not authorized - please login as admin\"}"))
 			return

@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/houseofbosons/houseofbosons/server/db"
@@ -87,6 +88,8 @@ func ReadBlog(w http.ResponseWriter, r *http.Request) {
 /*
 ReadBlogs reads all the `blogs` documents from database without any filter,
 and that's why only an authenticated admin client is allowed to access that
+If `skip` and `limit` value provided in the query string, it only fetches
+those few blog-documents. If not provided then fetches all blogs documents
 */
 func ReadBlogs(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
@@ -94,14 +97,47 @@ func ReadBlogs(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// reading all the `blog` documents from database
+	/*
+		reading `skip` and `limit` values from the query string.
+		If none provided then it fetches all the blog documents,
+		else it fetches only the documents between `index-skip`
+		and `index-(skip+limit)`. If throws error if invalid
+		value provided in the query (non-numeric)
+	*/
+	skpstr := r.URL.Query().Get("skip")
+	limstr := r.URL.Query().Get("limit")
+
 	var bs db.Blogs
-	err := bs.ReadAll(bson.M{}, bson.M{})
-	if err != nil {
-		writeErr(w, 500, err)
-		return
+
+	/*
+		checking if both `skip` and `limit` has been provided, if not
+		then read all blog documents, else reading only the required
+	*/
+	if len(skpstr) == 0 || len(limstr) == 0 {
+		err := bs.ReadAll(bson.M{}, bson.M{})
+		if err != nil {
+			writeErr(w, 500, err)
+			return
+		}
+	} else {
+		// integer value of query
+		skp, err := strconv.Atoi(skpstr)
+		lim, err := strconv.Atoi(limstr)
+
+		if err != nil {
+			writeErr(w, 400, fmt.Errorf("invalid skip and limit value provided"))
+			return
+		}
+
+		// reading the required documents
+		err = bs.ReadFew(bson.M{}, bson.M{}, skp, lim)
+		if err != nil {
+			writeErr(w, 500, err)
+			return
+		}
 	}
 
+	// writing teh data back to the client
 	writeJSON(w, bs)
 }
 

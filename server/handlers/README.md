@@ -14,6 +14,7 @@
 - POST -`/api/post/new`
 
 - GET -`/api/post/all`
+<!-- /api/post/all?skip=10&limit=2 -->
 
 - GET -`/api/post/single?id=123`
 
