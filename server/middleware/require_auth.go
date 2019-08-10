@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 
@@ -21,7 +20,6 @@ func CheckAuth(handler http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		session, err := CookieStore.Get(r, "session")
 		if err != nil {
-			fmt.Println("x1")
 			w.WriteHeader(500)
 			w.Write([]byte("{\"message\": \"" + err.Error() + "\", \"message2\": \"admin unauthorized\"}"))
 			return

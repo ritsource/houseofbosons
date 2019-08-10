@@ -35,7 +35,7 @@ func main() {
 	mux.HandleFunc("/api/post/delete/temp", middleware.CheckAuth(handlers.DeleteBlog))
 	mux.HandleFunc("/api/post/delete/perm", middleware.CheckAuth(handlers.DeleteBlogPrem))
 
-	mux.HandleFunc("/api/post/idstr/available", middleware.CheckAuth(handlers.CheckIDStr))
+	mux.HandleFunc("/api/post/idstr/available", middleware.CheckAuth(handlers.IDStrAvailable))
 
 	mux.HandleFunc("/api/topic/new", middleware.CheckAuth(handlers.CreateTopic))
 	mux.HandleFunc("/api/topic/all", middleware.CheckAuth(handlers.ReadTopics))

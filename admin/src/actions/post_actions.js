@@ -13,7 +13,7 @@ const postdata = {
 	md_src: '',
 	html_src: '',
 	thumbnail: '',
-	created_at: '',
+	// created_at: '',
 	topics: [],
 	is_featured: false,
 	is_public: false,
@@ -24,7 +24,7 @@ const postdata = {
 export const createPost = (id_str) => (dispatch, getState, api) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const resp = await api.post('/post/all', { ...postdata, id_str });
+			const resp = await api.post('/post/new', { ...postdata, id_str });
 			dispatch({ type: CREATE_POST, data: resp.data });
 			resolve(resp.data);
 		} catch (error) {

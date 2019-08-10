@@ -78,6 +78,7 @@ func (bs *Blogs) ReadFew(f, s bson.M, skp, lim int) error {
 
 // Create - Creates new Document
 func (b *Blog) Create() error {
+	b.ID = bson.NewObjectId()
 	err := MgoDB.C("blogs").Insert(&b)
 	if err != nil {
 		return err

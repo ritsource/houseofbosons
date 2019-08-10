@@ -8,7 +8,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/houseofbosons/houseofbosons/server/db"
@@ -37,6 +39,18 @@ func CreateBlog(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// checking ig valid or not
+	valid, err := checkIDStr(strings.TrimSpace(b.IDStr))
+	if err != nil {
+		writeErr(w, 500, err)
+		return
+	}
+
+	if !valid {
+		writeErr(w, 400, fmt.Errorf("IDStr %v is not valid", b.IDStr))
+		return
+	}
+
 	// manually setting `CreatedAt`, that holds creation time
 	b.CreatedAt = int32(time.Now().Unix())
 
@@ -47,8 +61,8 @@ func CreateBlog(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// redirecting to `/api/private/blogs` route handler
-	http.Redirect(w, r, "/api/private/blogs", http.StatusTemporaryRedirect) // 302 - POST to GET
+	// redirecting to `/post/single` route handler
+	http.Redirect(w, r, "/api/post/single?id="+b.ID.Hex(), 302) // 302 - POST to GET
 }
 
 /*
@@ -236,16 +250,16 @@ func DeleteBlogPrem(w http.ResponseWriter, r *http.Request) {
 }
 
 /*
-CheckIDStr .
+IDStrAvailable .
 */
-func CheckIDStr(w http.ResponseWriter, r *http.Request) {
+func IDStrAvailable(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		writeErr(w, 404, fmt.Errorf("%v request to %v not found", r.Method, r.URL.Path))
 		return
 	}
 
 	// retrieving id from query string
-	idstr := r.URL.Query().Get("idstr")
+	idstr := strings.TrimSpace(r.URL.Query().Get("idstr"))
 	if len(idstr) == 0 {
 		writeErr(w, http.StatusBadRequest, fmt.Errorf("no idstr provided"))
 		return
@@ -256,19 +270,39 @@ func CheckIDStr(w http.ResponseWriter, r *http.Request) {
 		Av bool `json:"available"`
 	}
 
-	// deleting document (permanently)
-	var b db.Blog
-	err := b.Read(bson.M{"id_str": idstr}, bson.M{})
-	switch err {
-	case mgo.ErrNotFound:
-		res.Av = true
-	case nil:
-		res.Av = false
-	default:
+	// checking ig valid or not
+	var err error
+	res.Av, err = checkIDStr(idstr)
+	if err != nil {
 		writeErr(w, 500, err)
 		return
 	}
 
 	// writing the updated data
 	writeJSON(w, res)
+}
+
+// checkIDStr checks if an IDSTR is valid or not
+func checkIDStr(idstr string) (bool, error) {
+	if len(idstr) == 0 {
+		return false, nil
+	}
+
+	// checking if a valid url of not
+	_, err := url.Parse("http://" + idstr)
+	if err != nil {
+		return false, nil
+	}
+
+	// deleting document (permanently)
+	var b db.Blog
+	err = b.Read(bson.M{"id_str": idstr}, bson.M{})
+	switch err {
+	case mgo.ErrNotFound:
+		return true, nil
+	case nil:
+		return false, nil
+	default:
+		return false, err
+	}
 }

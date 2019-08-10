@@ -46,6 +46,61 @@
         outline: none;
       }
 
+      .Rodal-ClassName {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .Theme-Input {
+        color: #555;
+        border: 1px solid #555;
+        border-radius: 4px;
+        padding: 5px 10px;
+      }
+
+      .Theme-Btn {
+        color: white;
+        background: #6441a5;
+        border: 1px solid #6441a5;
+        border-radius: 4px;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+      .Theme-Btn-Big {
+        padding: 9px 20px;
+      }
+      .Theme-Btn:disabled {
+        background: #937EB0;
+        border: 1px solid #937EB0;
+        cursor: default;
+      }
+
+      .Theme-Loading-Spin-Div {
+        background: white;
+        padding: 0px;
+        margin: 0px;
+        border: 4px solid white;
+        /* border: 4px solid #6441a5; */
+        border-top: 4px solid #6441a5;
+        border-right: 4px solid #6441a5;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        -webkit-animation: Loading-Spin 500ms linear infinite; /* Safari */
+        animation: Loading-Spin 500ms linear infinite;
+      }
+
+      @-webkit-keyframes Loading-Spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+      }
+
+      @keyframes Loading-Spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
     </style>
 
   </head>
