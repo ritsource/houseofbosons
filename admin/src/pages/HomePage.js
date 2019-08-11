@@ -12,7 +12,7 @@ class HomePage extends React.Component {
 		this.state = {
 			loading: true,
 			errorMsg: false,
-			modal: true
+			modal: false
 		};
 	}
 
@@ -34,6 +34,8 @@ class HomePage extends React.Component {
 		return (
 			<React.Fragment>
 				<CreatePostModal
+					text="Create Post"
+					btnText="Create"
 					visible={this.state.modal}
 					onClose={() => this.setState({ modal: false })}
 					createPost={this.props.createPost}

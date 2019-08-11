@@ -4,7 +4,7 @@ import { CREATE_POST, READ_ALL_POST } from './action_types';
 post data holds default values
 for creating a new post
 */
-const postdata = {
+export const postdata = {
 	id_str: '',
 	title: 'Title',
 	description: '',
@@ -24,7 +24,11 @@ const postdata = {
 export const createPost = (id_str) => (dispatch, getState, api) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const resp = await api.post('/post/new', { ...postdata, id_str });
+			const resp = await api.post('/post/new', {
+				...postdata,
+				id_str,
+				title: id_str[0].toUpperCase() + id_str.slice(1)
+			});
 			dispatch({ type: CREATE_POST, data: resp.data });
 			resolve(resp.data);
 		} catch (error) {

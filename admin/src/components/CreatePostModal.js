@@ -7,13 +7,21 @@ import 'rodal/lib/rodal.css';
 const CreatePostModal = (props) => {
 	const [ valid, setValid ] = useState(false);
 	const [ idstr, setIdstr ] = useState('');
-	const [ loading, setLoading ] = useState('');
+	const [ loading, setLoading ] = useState(false);
 	const [ errorMsg, setErrorMsg ] = useState('');
+
+	const closeModal = () => {
+		setValid(false);
+		setIdstr('');
+		setLoading(false);
+		setErrorMsg('');
+		props.onClose();
+	};
 
 	return (
 		<Rodal
 			visible={props.visible}
-			onClose={props.onClose}
+			onClose={closeModal}
 			showCloseButton={false}
 			className="Rodal-ClassName"
 			customStyles={{
@@ -35,6 +43,14 @@ const CreatePostModal = (props) => {
 					padding: '20px'
 				}}
 			>
+				<h4
+					style={{
+						margin: '0px 0px 10px 0px',
+						padding: '0px'
+					}}
+				>
+					{props.text}
+				</h4>
 				<IDStrInput
 					idstr={idstr}
 					setIdstr={setIdstr}
@@ -59,15 +75,22 @@ const CreatePostModal = (props) => {
 				)}
 				<button
 					style={{ marginTop: '10px' }}
-					disabled={!valid && loading}
+					disabled={!valid || loading}
 					className="Theme-Btn"
-					onClick={() => {
+					onClick={async () => {
 						if (idstr.length > 0) {
-							props.createPost(idstr);
+							try {
+								await props.createPost(idstr);
+								closeModal();
+								const el = document.querySelector('.PostList-Comp-Div');
+								el.scrollTop = el.scrollHeight;
+							} catch (error) {
+								setErrorMsg(error.message);
+							}
 						}
 					}}
 				>
-					Create
+					{props.btnText}
 				</button>
 			</div>
 		</Rodal>

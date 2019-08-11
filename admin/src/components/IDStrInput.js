@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import _ from 'lodash';
 import api from '../api';
 import { FaCheck, FaTimes, FaFire } from 'react-icons/fa';
 
 const IDStrInput = (props) => {
+	const inputElm = useRef(null);
+
 	const checkValid = async (text) => {
 		try {
 			const resp = await api.get('/post/idstr/available?idstr=' + text);
@@ -13,6 +15,10 @@ const IDStrInput = (props) => {
 			props.setErrorMsg(error.message);
 		}
 	};
+
+	useEffect(() => {
+		inputElm.current.focus();
+	}, []);
 
 	return (
 		<div
@@ -40,6 +46,7 @@ const IDStrInput = (props) => {
 						}, 1000);
 					}
 				}}
+				ref={inputElm}
 				placeholder="Unique ID-Str"
 				style={{ width: '100%' }}
 				className="Theme-Input"
