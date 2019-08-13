@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { readSinglePost, editPost, deletePostPerm, deletePostTemp } from '../actions/active_post_actions';
+import { readTopics, createTopic, editTopic, deleteTopic } from '../actions/topic_actions';
 
 import PostData from '../components/PostData';
 
@@ -55,6 +56,10 @@ class EachPostPage extends React.Component {
 							editPost={this.props.editPost}
 							deletePostPerm={this.props.deletePostPerm}
 							deletePostTemp={this.props.deletePostTemp}
+							topics={this.props.topics}
+							readTopics={this.props.readTopics}
+							createTopic={this.props.createTopic}
+							deleteTopic={this.props.deleteTopic}
 						/>
 					</React.Fragment>
 				) : (
@@ -65,13 +70,17 @@ class EachPostPage extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ activePost }) => ({ post: activePost });
+const mapStateToProps = ({ activePost, topics }) => ({ post: activePost, topics });
 
 const mapDispatchToProps = (dispatch) => ({
 	readSinglePost: (...args) => dispatch(readSinglePost(...args)),
 	editPost: (...args) => dispatch(editPost(...args)),
 	deletePostTemp: (...args) => dispatch(deletePostTemp(...args)),
-	deletePostPerm: (...args) => dispatch(deletePostPerm(...args))
+	deletePostPerm: (...args) => dispatch(deletePostPerm(...args)),
+	readTopics: (...args) => dispatch(readTopics(...args)),
+	createTopic: (...args) => dispatch(createTopic(...args)),
+	editTopic: (...args) => dispatch(editTopic(...args)),
+	deleteTopic: (...args) => dispatch(deleteTopic(...args))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EachPostPage);

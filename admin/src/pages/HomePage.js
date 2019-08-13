@@ -15,7 +15,7 @@ class HomePage extends React.Component {
 			loading: true,
 			errorMsg: false,
 			idstrModal: false,
-			topicVis: true
+			topicVis: false
 		};
 	}
 
@@ -45,14 +45,14 @@ class HomePage extends React.Component {
 				/>
 				<TopicManageModal
 					text="Manage Topics"
+					forSelection={false}
+					alreadySelected={[]}
 					topics={this.props.topics}
 					readTopics={this.props.readTopics}
 					createTopic={this.props.createTopic}
-					editTopic={this.props.editTopic}
 					deleteTopic={this.props.deleteTopic}
 					visible={this.state.topicVis}
 					onClose={() => this.setState({ topicVis: false })}
-					createPost={this.props.createPost}
 				/>
 
 				<div

@@ -22,6 +22,8 @@ const TopicManageModal = (props) => {
 
 	useEffect(() => {
 		(async function() {
+			setSelected(props.alreadySelected.map((title) => ({ title })));
+
 			try {
 				await props.readTopics();
 			} catch (error) {
@@ -31,6 +33,19 @@ const TopicManageModal = (props) => {
 			setLoading(false);
 		})();
 	}, []);
+
+	const onSelection = async () => {
+		await setLoading(true);
+
+		try {
+			await props.onSelection(selected);
+			closeModal();
+		} catch (error) {
+			setErrorMsg(error.message);
+		}
+
+		setLoading(false);
+	};
 
 	const deleteSelected = async () => {
 		await setLoading(true);
@@ -98,6 +113,10 @@ const TopicManageModal = (props) => {
 					<h4 style={{ margin: '0px', padding: '0px' }}>{props.text}</h4>
 					{loading ? (
 						<div className="Theme-Loading-Spin-Div" />
+					) : props.forSelection ? (
+						<button onClick={onSelection} className="Theme-Btn">
+							Select
+						</button>
 					) : (
 						<button onClick={deleteSelected} disabled={!selected.length} className="Theme-Btn">
 							Delete
@@ -121,9 +140,9 @@ const TopicManageModal = (props) => {
 								topic={t}
 								loading={loading}
 								deleteTopic={() => props.deleteTopic(t._id)}
-								selected={selected.some(({ _id }) => _id === t._id)}
+								selected={selected.some(({ title }) => title === t.title)}
 								addToSel={() => setSelected([ ...selected, t ])}
-								removeFromSel={() => setSelected(selected.filter(({ _id }) => _id !== t._id))}
+								removeFromSel={() => setSelected(selected.filter(({ title }) => title !== t.title))}
 							/>
 						);
 					})}
