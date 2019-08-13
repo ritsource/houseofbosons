@@ -13,7 +13,7 @@ import (
 ReadTopics handles requests to read all teh topics from database
 */
 func ReadTopics(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
+	if r.Method != http.MethodGet {
 		writeErr(w, 404, fmt.Errorf("%v request to %v not found", r.Method, r.URL.Path))
 		return
 	}
@@ -47,6 +47,11 @@ func CreateTopic(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if t.Title == "" {
+		writeErr(w, 400, fmt.Errorf("empty title \"%v\"is not valid", t.Title))
+		return
+	}
+
 	// inserting a new document in the database
 	err = t.Create()
 	if err != nil {
@@ -54,8 +59,7 @@ func CreateTopic(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// redirecting to `/api/private/topics` route handler
-	http.Redirect(w, r, "/api/private/topics", http.StatusTemporaryRedirect) // 302 - POST to GET
+	writeJSON(w, t)
 }
 
 /*
@@ -99,7 +103,7 @@ func EditTopic(w http.ResponseWriter, r *http.Request) {
 DeleteTopic deletes a topic document
 */
 func DeleteTopic(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
+	if r.Method != http.MethodDelete {
 		writeErr(w, 404, fmt.Errorf("%v request to %v not found", r.Method, r.URL.Path))
 		return
 	}

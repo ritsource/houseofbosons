@@ -9,7 +9,7 @@ export default (state = null, action) => {
 		case DELETE_POST_TEMP:
 			return action.data;
 		case DELETE_POST_PERM:
-			return action.data;
+			return null;
 		default:
 			return state;
 	}

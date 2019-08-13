@@ -62,14 +62,7 @@ const CreatePostModal = (props) => {
 					setErrorMsg={setErrorMsg}
 				/>
 				{!!errorMsg && (
-					<p
-						style={{
-							color: 'red',
-							fontSize: '13px',
-							margin: '10px 0px 0px 0px',
-							padding: '0px'
-						}}
-					>
+					<p style={{ color: '#ea4335', fontSize: '13px', margin: '10px 0px 0px 0px', padding: '0px' }}>
 						{errorMsg}
 					</p>
 				)}

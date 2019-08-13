@@ -24,9 +24,10 @@ class EachPostPage extends React.Component {
 		return (
 			<div
 				style={{
-					maxHeight: 'calc(100vh - 100px)',
+					// maxHeight: 'calc(100vh - 100px)',
 					padding: '50px',
 					width: '700px',
+					// border: '1px solid red',
 					display: 'flex',
 					flexDirection: 'column'
 				}}
@@ -43,7 +44,8 @@ class EachPostPage extends React.Component {
 								margin: '0px',
 								overflow: 'hidden',
 								whiteSpace: 'nowrap',
-								textOverflow: 'ellipsis'
+								textOverflow: 'ellipsis',
+								textAlign: 'center'
 							}}
 						>
 							{this.props.post.title}

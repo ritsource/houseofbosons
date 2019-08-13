@@ -5,45 +5,33 @@ import DataEditBtns from './DataEditBtns';
 const PostDataBool = (props) => {
 	const [ editable, setEditable ] = useState(false);
 	// const [ isFeatured, setIsFeatured ] = useState(props.is_featured);
-	const [ isPublic, setIsPublic ] = useState(props.is_public);
-	const [ isDeleted, setIsDeleted ] = useState(props.is_deleted);
-	const [ isSeries, setIsSeries ] = useState(props.is_series);
+	const [ isPublic, setIsPublic ] = useState(props.post.is_public);
+	const [ isDeleted, setIsDeleted ] = useState(props.post.is_deleted);
+	const [ isSeries, setIsSeries ] = useState(props.post.is_series);
 
 	const resetState = () => {
-		setIsPublic(props.is_public);
-		setIsDeleted(props.is_deleted);
-		setIsSeries(props.is_series);
+		setIsPublic(props.post.is_public);
+		setIsDeleted(props.post.is_deleted);
+		setIsSeries(props.post.is_series);
 	};
 
 	return (
-		<div style={{ margin: '20px 0px 0px 0px' }}>
-			<h4 style={{ margin: '0px', padding: '0px' }}>Booleans</h4>
+		<div style={{ margin: '30px 0px 0px 0px' }}>
+			<h4 style={{ margin: '0px 0px 10px 0px', padding: '0px' }}>Booleans</h4>
 			<BoolInput
 				text="Is Public"
 				bool={isPublic}
-				toggleBool={() => {
-					if (editable) {
-						setIsPublic(!isPublic);
-					}
-				}}
+				toggleBool={() => setIsPublic(editable ? !isPublic : isPublic)}
 			/>
 			<BoolInput
 				text="Is Deleted"
 				bool={isDeleted}
-				toggleBool={() => {
-					if (editable) {
-						setIsDeleted(!isDeleted);
-					}
-				}}
+				toggleBool={() => setIsDeleted(editable ? !isDeleted : isDeleted)}
 			/>
 			<BoolInput
 				text="Is Series"
 				bool={isSeries}
-				toggleBool={() => {
-					if (editable) {
-						setIsSeries(!isSeries);
-					}
-				}}
+				toggleBool={() => setIsSeries(editable ? !isSeries : isSeries)}
 			/>
 			<DataEditBtns
 				editable={editable}
@@ -60,7 +48,7 @@ const indiBtnUp = {
 	background: '#6441a5',
 	border: '1px solid #6441a5',
 	height: '16px',
-	'-webkit-transition': '0.1s linear',
+	WebkitTransition: '0.1s linear',
 	transition: '0.1s linear'
 };
 const indiBtnBottom = {
@@ -79,7 +67,8 @@ const BoolInput = (props) => (
 			justifyContent: 'space-between',
 			alignItems: 'center',
 			maxWidth: '200px',
-			margin: '10px 0px 0px 0px'
+			margin: '0px',
+			padding: '8px 0px'
 		}}
 	>
 		<p style={{ margin: '0px', padding: '0px', fontSize: '14px' }}>{props.text}</p>

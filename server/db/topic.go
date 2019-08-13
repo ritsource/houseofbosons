@@ -22,6 +22,7 @@ type Topics []Topic
 Create creates a new topic document
 */
 func (t *Topic) Create() error {
+	t.ID = bson.NewObjectId()
 	return MgoDB.C("topics").Insert(t)
 }
 

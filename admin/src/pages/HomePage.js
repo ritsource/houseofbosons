@@ -2,9 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { createPost, readPosts } from '../actions/post_actions';
+import { readTopics, createTopic, editTopic, deleteTopic } from '../actions/topic_actions';
 
 import PostList from '../components/PostList';
 import CreatePostModal from '../components/CreatePostModal';
+import TopicManageModal from '../components/TopicManageModal';
 
 class HomePage extends React.Component {
 	constructor(props) {
@@ -12,13 +14,14 @@ class HomePage extends React.Component {
 		this.state = {
 			loading: true,
 			errorMsg: false,
-			modal: false
+			idstrModal: false,
+			topicVis: true
 		};
 	}
 
 	async fetchPosts() {
 		try {
-			await this.props.readPosts(20);
+			await this.props.readPosts(10);
 		} catch (error) {
 			console.log(error);
 			this.setState({ errorMsg: error.message });
@@ -36,14 +39,26 @@ class HomePage extends React.Component {
 				<CreatePostModal
 					text="Create Post"
 					btnText="Create"
-					visible={this.state.modal}
-					onClose={() => this.setState({ modal: false })}
+					visible={this.state.idstrModal}
+					onClose={() => this.setState({ idstrModal: false })}
+					createPost={this.props.createPost}
+				/>
+				<TopicManageModal
+					text="Manage Topics"
+					topics={this.props.topics}
+					readTopics={this.props.readTopics}
+					createTopic={this.props.createTopic}
+					editTopic={this.props.editTopic}
+					deleteTopic={this.props.deleteTopic}
+					visible={this.state.topicVis}
+					onClose={() => this.setState({ topicVis: false })}
 					createPost={this.props.createPost}
 				/>
 
 				<div
 					style={{
-						maxHeight: 'calc(100vh - 100px)',
+						minHeight: 'calc(100vh - 100px)',
+						// maxHeight: 'calc(100vh - 100px)',
 						// width: 'calc(100vw - 400px)',
 						padding: '50px',
 						minWidth: '700px',
@@ -63,9 +78,18 @@ class HomePage extends React.Component {
 						{this.state.loading ? (
 							<div className="Theme-Loading-Spin-Div" />
 						) : (
-							<button className="Theme-Btn" onClick={() => this.setState({ modal: true })}>
-								Create Post
-							</button>
+							<div>
+								<button
+									style={{ marginRight: '10px' }}
+									className="Theme-Btn"
+									onClick={() => this.setState({ topicVis: true })}
+								>
+									Topics
+								</button>
+								<button className="Theme-Btn" onClick={() => this.setState({ idstrModal: true })}>
+									Create Post
+								</button>
+							</div>
 						)}
 					</div>
 					{this.props.posts.length === 0 ? this.state.loading ? (
@@ -104,11 +128,15 @@ class HomePage extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ posts }) => ({ posts });
+const mapStateToProps = ({ posts, topics }) => ({ posts, topics });
 
 const mapDispatchToProps = (dispatch) => ({
 	createPost: (...args) => dispatch(createPost(...args)),
-	readPosts: (...args) => dispatch(readPosts(...args))
+	readPosts: (...args) => dispatch(readPosts(...args)),
+	readTopics: (...args) => dispatch(readTopics(...args)),
+	createTopic: (...args) => dispatch(createTopic(...args)),
+	editTopic: (...args) => dispatch(editTopic(...args)),
+	deleteTopic: (...args) => dispatch(deleteTopic(...args))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

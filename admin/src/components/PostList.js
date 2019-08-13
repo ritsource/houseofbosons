@@ -6,7 +6,7 @@ const PostList = (props) => {
 		<div
 			className="PostList-Comp-Div"
 			style={{
-				overflow: 'auto'
+				// overflow: 'auto'
 			}}
 		>
 			{props.posts.map((post, i) => {

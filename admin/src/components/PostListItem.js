@@ -17,8 +17,9 @@ const PostListItem = (props) => {
 			<Link to={'/post/' + props.post._id}>
 				<p
 					style={{
-						height: '18px',
-						lineHeight: '18px',
+						fontSize: '14px',
+						height: '16px',
+						lineHeight: '16px',
 						padding: '0px',
 						margin: '0px',
 						overflow: 'hidden',

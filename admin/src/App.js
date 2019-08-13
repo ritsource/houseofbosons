@@ -5,6 +5,7 @@ import { fetchAdmin } from './actions/auth_actions';
 import { FaGoogle } from 'react-icons/fa';
 import { serverAdd } from './api';
 
+import Header from './components/Header';
 import LoginBtn from './components/LoginBtn';
 import HomePage from './pages/HomePage';
 import TopicsPage from './pages/TopicsPage';
@@ -39,6 +40,7 @@ class App extends React.Component {
 					alignItems: 'center'
 				}}
 			>
+				<Header />
 				<BrowserRouter>
 					{this.state.loading ? (
 						<h1>Loading...</h1>
