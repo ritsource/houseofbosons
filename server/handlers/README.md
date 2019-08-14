@@ -1,14 +1,71 @@
-# API Handlers
+# API Documentation
+> Version 1, released on August 15, 2019
 
-# API Docs (Kinda)
+## Authentication
+
+### `GET - https://houseofbosons.com/api/auth/google`
+Redirects the client to Google-OAuth2 authentication flow, where admin can login with their google account. Only, authorized gmail accounts are allowed.
+
+### `GET - https://houseofbosons.com/api/auth/current_user`
+Writes back data about the currently logged in user.
+
+- 200 Response:
+```json
+{
+  "_id": "123...",
+  "email":"houseofbosons@gmail.com",
+  "id":"000000..."
+}
+```
 
 
-- GET - `/api/auth/google` - Redirects the client to Google-OAuth2 authentication flow.
+## Post C.R.U.D.
 
-- GET - `/api/auth/google/callback` - Google-OAuth2 callback handler.
+### `GET - https://houseofbosons.com/api/api/post/new`
+Writes back data about the currently logged in user.
 
-- GET - `/api/auth/current_user` - To fetch data about currently logged in user/admin.
+- Request Body:
+```json
+{
+  "id_str": "blog-post-no-1",
+  "title": "Title of Blog Post 1",
+  "description": "Soem description",
+  "formatted_date": "15 August, 2019",
+  "doc_type": 0,
+  "md_src": "https://content...",
+  "html_src": "https://content...",
+  "thumbnail": "https://content...",
+  "topics": [],
+  "is_featured": false,
+  "is_public": true,
+  "is_deleted": false,
+  "is_series": false"
+}
+```
 
+- 200 Response:
+```json
+{
+  "_id": "123...",
+  "id_str": "blog-post-no-1",
+  "title": "Title of Blog Post 1",
+  "description": "Soem description",
+  "formatted_date": "15 August, 2019",
+  "doc_type": 0,
+  "md_src": "https://content...",
+  "html_src": "https://content...",
+  "thumbnail": "https://content...",
+  "topics": [],
+  "is_featured": false,
+  "is_public": true,
+  "is_deleted": false,
+  "is_series": false,
+  "sub_blogs": []
+}
+```
+
+
+Rest maybe later
 
 
 - POST -`/api/post/new`
@@ -38,3 +95,11 @@
 
 - DELETE -`/api/topic/delete?id=123`
 
+
+
+## Error-Response:
+```json
+{
+  "message": "422 query failed"
+}
+```

@@ -247,7 +247,7 @@ BlogsHandler renders lists out all the blogs as UI for the `/posts`
 page, renders only the public `blogs` and includes page navigation
 */
 func BlogsHandler(w http.ResponseWriter, r *http.Request) {
-	nbpp := 3        // max number of blog-posts to be shown in 1 page
+	nbpp := 8        // max number of blog-posts to be shown in 1 page
 	num := NavData{} // num holds page index related daa
 
 	// reading the page-number from query staring

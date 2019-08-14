@@ -40,6 +40,11 @@ Specific to Index Page
 	margin-top: -80px;
 }
 #Index-Page-Options p {
+	color: var(--text-color-B);
+	font-weight: normal;
+	font-size: 0.9rem;
+	word-spacing: 0.7px;
+	/* line-height: 18px; */
 	margin: 5px 0px 10px 0px;
 }
 

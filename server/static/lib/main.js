@@ -88,8 +88,23 @@ Object.values(LikeBtns).map((el) => {
 	var id = el.attributes.postid.value;
 	var v = localStorage.getItem(id);
 
+	let textel = el.parentNode.querySelector('.Like-Btn-Text');
+	textel = textel ? textel : el;
+
 	if (v) {
 		el.className += ' Like-Btn-Liked';
+		/*
+		"textel", is the element that holds the text (like/linked),
+		to edit for different types of liked buttons.
+		`textel.innerHTML.slice(0, -4)` slices out the "like" text
+		from the end and adds liked to it, and also vise versa
+		
+		there's definately another option, that I am gonna use,
+		`textel.innerHTML += 'd';`
+		*/
+
+		// textel.innerHTML = textel.innerHTML.slice(0, -4) + 'Liked';
+		textel.innerHTML += 'd';
 	}
 
 	el.addEventListener(
@@ -100,51 +115,81 @@ Object.values(LikeBtns).map((el) => {
 			if (localStorage.getItem(id)) {
 				localStorage.removeItem(id);
 				el.className += 'Like-Btn';
+				// textel.innerHTML = textel.innerHTML.slice(0, -5) + 'Like';
+				textel.innerHTML = textel.innerHTML.slice(0, -1);
 			} else {
 				localStorage.setItem(id, true);
 				el.className += ' Like-Btn-Liked';
+				textel.innerHTML += 'd';
 			}
 		},
 		false
 	);
 });
 
-// Like btn
-const footerHeight = document.getElementById('Footer').offsetHeight;
+/*
+Code for handling like button visibility (technically display),
+it get's hidden while it's over footer (for mobile view mainly)
+*/
 
-window.addEventListener(
-	'scroll',
-	function() {
-		const scrollBottom =
-			document.documentElement.scrollHeight -
-			document.documentElement.scrollTop -
-			document.documentElement.clientHeight;
+const footer_offset_height = document.getElementById('Footer').offsetHeight;
+const likeBtn_div = document.querySelector('.Each-Post-Floating-Div');
 
-		if (scrollBottom <= footerHeight) {
-			document.querySelector('.Each-Post-Floating-Div').style.display = 'none';
-		} else {
-			document.querySelector('.Each-Post-Floating-Div').style.display = 'block';
-		}
-	},
-	true
-);
+if (likeBtn_div) {
+	window.addEventListener(
+		'scroll',
+		function() {
+			const scrollBottom =
+				document.documentElement.scrollHeight -
+				document.documentElement.scrollTop -
+				document.documentElement.clientHeight;
 
-// share button
-
-function copyToClipboard(text) {
-	var dum = document.createElement('input');
-	document.body.appendChild(dum);
-	dum.value = text;
-	dum.select();
-	document.execCommand('copy');
-	document.body.removeChild(dum);
+			if (scrollBottom <= footer_offset_height) {
+				likeBtn_div.style.display = 'none';
+			} else {
+				likeBtn_div.style.display = 'block';
+			}
+		},
+		true
+	);
 }
 
+/*
+Code for handling share button actions, sharing on
+social media and copying link to clipboard
+*/
+
+/*
+copyToClipboard copies text to clipboard
+*/
+function copyToClipboard(text) {
+	// first, creating a dummy input element
+	var dummy = document.createElement('input');
+	document.body.appendChild(dummy);
+
+	// setting value of that input to the given text
+	dummy.value = text;
+
+	// copying the value from input
+	dummy.select();
+	document.execCommand('copy');
+
+	// removing the dummy input element
+	document.body.removeChild(dummy);
+}
+
+/*
+openInNewTab opens a given url in new tab
+*/
 function openInNewTab(url) {
 	var win = window.open(url, '_blank');
 	win.focus();
 }
 
+/*
+array for holding share button class and
+corrosponding action on that button 
+*/
 const shareBtns = [
 	{
 		className: 'Social-Share-Btn-FB',
@@ -172,6 +217,7 @@ const shareBtns = [
 	}
 ];
 
+/* adding events listener to share buttons */
 shareBtns.map((btn) => {
 	const els = document.getElementsByClassName(btn.className);
 	Object.values(els).map((el) => {

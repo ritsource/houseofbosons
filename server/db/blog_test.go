@@ -3,16 +3,23 @@ package db_test
 import (
 	"testing"
 
-	"github.com/ritwik310/my-website/server/db"
+	"github.com/houseofbosons/houseofbosons/server/db"
 
 	"gopkg.in/mgo.v2/bson"
 )
 
-func init() {
-	db.MgoDB.C("blogs").RemoveAll(nil)
-}
-
 func TestBlogCRUD(t *testing.T) {
+	// err := db.Mongo.Connect()
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// defer db.Mongo.Close()
+
+	// _, err = db.Mongo.DB().C("blogs").RemoveAll(nil)
+	// if err != nil {
+	// 	panic(err)
+	// }
+
 	bl := db.Blog{Title: "Test Blog", Description: "Test Blog"}
 
 	createBlog(t, &bl)
@@ -61,7 +68,7 @@ func readBlog(t *testing.T, bl *db.Blog) {
 }
 
 func readBlogs(t *testing.T, bls *db.Blogs) {
-	err := bls.Read(bson.M{}, bson.M{})
+	err := bls.ReadAll(bson.M{}, bson.M{})
 	if err != nil {
 		t.Error(err)
 	}
