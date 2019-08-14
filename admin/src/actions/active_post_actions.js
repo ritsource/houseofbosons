@@ -1,5 +1,4 @@
 import { READ_SINGLE_POST, EDIT_POST, DELETE_POST_PERM, DELETE_POST_TEMP } from './action_types';
-import { postdata } from './post_actions';
 
 export const readSinglePost = (postid) => (dispatch, getState, api) => {
 	return new Promise(async (resolve, reject) => {
@@ -14,10 +13,11 @@ export const readSinglePost = (postid) => (dispatch, getState, api) => {
 	});
 };
 
-export const editPost = (postid, extradata) => (dispatch, getState, api) => {
+export const editPost = (postid, data) => (dispatch, getState, api) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const resp = await api.put('/post/edit?id=' + postid, { ...postdata, ...extradata });
+			delete data['_id'];
+			const resp = await api.put('/post/edit?id=' + postid, data);
 			dispatch({ type: EDIT_POST, data: resp.data });
 			resolve(resp.data);
 		} catch (error) {

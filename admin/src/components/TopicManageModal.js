@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Rodal from 'rodal';
-import { FaTrash, FaPen } from 'react-icons/fa';
 
 import 'rodal/lib/rodal.css';
 
@@ -134,9 +133,10 @@ const TopicManageModal = (props) => {
 						// border: '1px solid red'
 					}}
 				>
-					{props.topics.map((t) => {
+					{props.topics.map((t, i) => {
 						return (
 							<TopicButton
+								key={i}
 								topic={t}
 								loading={loading}
 								deleteTopic={() => props.deleteTopic(t._id)}

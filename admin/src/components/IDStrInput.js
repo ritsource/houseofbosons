@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
-import _ from 'lodash';
+import React, { useEffect, useRef } from 'react';
 import api from '../api';
 import { FaCheck, FaTimes, FaFire } from 'react-icons/fa';
 
@@ -33,7 +32,7 @@ const IDStrInput = (props) => {
 				onChange={async (e) => {
 					await props.setIdstr(e.target.value);
 
-					if (props.idstr.length == 0) {
+					if (props.idstr.length === 0) {
 						props.setValid(false);
 						props.setErrorMsg('');
 					}

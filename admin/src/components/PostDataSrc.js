@@ -3,7 +3,6 @@ import { FaCheck } from 'react-icons/fa';
 
 import DataEditBtns from './DataEditBtns';
 import { InfoInput } from './PostDataInfo';
-import { white } from 'ansi-colors';
 
 const PostDataSrc = (props) => {
 	const [ editable, setEditable ] = useState(false);
@@ -19,7 +18,7 @@ const PostDataSrc = (props) => {
 
 	return (
 		<div style={{ margin: '30px 0px 0px 0px' }}>
-			<h4 style={{ margin: '0px', padding: '0px' }}>Meta Data</h4>
+			<h4 style={{ margin: '0px', padding: '0px' }}>Document Source</h4>
 
 			<div style={{ marginTop: '10px', display: 'flex', alignItems: 'center' }}>
 				<p style={{ margin: '0px', width: '127px', padding: '0px', fontSize: '14px' }}>Document Type</p>
@@ -65,6 +64,17 @@ const PostDataSrc = (props) => {
 				placeholder="HTML document source"
 			/>
 			<DataEditBtns
+				onSave={() => {
+					return new Promise(async (resolve, reject) => {
+						try {
+							await props.editPost({ doc_type: docType, md_src: mdSrc, html_src: htmlSrc });
+							setEditable(false);
+							resolve();
+						} catch (error) {
+							reject(error);
+						}
+					});
+				}}
 				editable={editable}
 				setEditable={(...args) => {
 					resetState();
@@ -83,7 +93,8 @@ const checkboxstyle = {
 	alignItems: 'center',
 	padding: '3px',
 	borderRadius: '4px',
-	cursor: 'pointer'
+	cursor: 'pointer',
+	margin: '4px 0px'
 };
 
 const DocTypeCheckbox = (props) => (

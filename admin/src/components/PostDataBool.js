@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import DataEditBtns from './DataEditBtns';
 
@@ -9,9 +9,20 @@ const PostDataBool = (props) => {
 	const [ isDeleted, setIsDeleted ] = useState(props.post.is_deleted);
 	const [ isSeries, setIsSeries ] = useState(props.post.is_series);
 
+	useEffect(
+		() => {
+			console.log(props.post.is_series);
+			// resetState();
+		},
+		[ props.post ]
+	);
+
 	const resetState = () => {
 		setIsPublic(props.post.is_public);
 		setIsDeleted(props.post.is_deleted);
+		console.log('x', props.post);
+		console.log('f:', props.post.is_series);
+
 		setIsSeries(props.post.is_series);
 	};
 
@@ -34,6 +45,17 @@ const PostDataBool = (props) => {
 				toggleBool={() => setIsSeries(editable ? !isSeries : isSeries)}
 			/>
 			<DataEditBtns
+				onSave={() => {
+					return new Promise(async (resolve, reject) => {
+						try {
+							await props.editPost({ is_public: isPublic, is_deleted: isDeleted, is_series: isSeries });
+							setEditable(false);
+							resolve();
+						} catch (error) {
+							reject(error);
+						}
+					});
+				}}
 				editable={editable}
 				setEditable={(...args) => {
 					resetState();

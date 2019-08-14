@@ -42,6 +42,17 @@ const PostDataInfo = (props) => {
 				placeholder="Thumbnail source link"
 			/>
 			<DataEditBtns
+				onSave={() => {
+					return new Promise(async (resolve, reject) => {
+						try {
+							await props.editPost({ title, description, formatted_date: formattedDate, thumbnail });
+							setEditable(false);
+							resolve();
+						} catch (error) {
+							reject(error);
+						}
+					});
+				}}
 				editable={editable}
 				setEditable={(...args) => {
 					resetState();
