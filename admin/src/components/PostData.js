@@ -5,6 +5,7 @@ import TopicManageModal from './TopicManageModal';
 import PostDataBool from './PostDataBool';
 import PostDataInfo from './PostDataInfo';
 import PostDataSrc from './PostDataSrc';
+import PostDataSubPosts from './PostDataSubPosts';
 
 const PostData = (props) => {
 	const [ idstrModal, setIstrModal ] = useState(false);
@@ -92,6 +93,7 @@ const PostData = (props) => {
 				</React.Fragment>
 			)}
 			<PostDataBool post={props.post} editPost={async (data) => await props.editPost(props.post._id, data)} />
+			{/* <PostDataSubPosts post={props.post} editPost={async (data) => await props.editPost(props.post._id, data)} /> */}
 		</div>
 	);
 };
