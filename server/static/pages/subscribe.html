@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">  
+  {{template "head-links"}}
+  <title>Subscribe | House of Bosons</title>
+</head>
+<body>
+
+    {{template "header"}} 
+    
+    <div class="Index-Page-Body Flex-Row-Center">
+      <div id="Index-Page-Options">
+        <h1>Newsletter <span style="font-size: 1.1rem;">(beta)</span></h1>
+        <p>Subscribe to House of Bosons weekly newsletter.</p>
+        <!-- <p>Get notified whenever we upload new content.</p> -->
+        <div class="Newsletter-Form-0">
+          <form>
+            <input class="Type-0-Input-Blue" type="email" placeholder="Email">
+            <button class="Type-0-Btn-Blue">Subscribe</button>
+          </form>
+          <p class="Newsletter-Form-Err-Msg"></p>
+          <p class="Newsletter-Form-Succ-Msg"></p>
+        </div>
+      </div>
+    </div>
+
+    {{template "footer"}} 
+       
+    <script src="/static/lib/main.js"></script>
+    
+</body>
+</html>

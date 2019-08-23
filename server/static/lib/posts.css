@@ -474,3 +474,48 @@ Specific to Posts page
 		display: none;
 	}
 }
+
+.Newsletter-Form-0 form {
+	display: flex;
+	flex-direction: row;
+	/* justify-content: flex-start; */
+	align-items: center;
+	margin: auto;
+	max-width: 400px;
+	margin-bottom: 10px;
+}
+
+.Newsletter-Form-0 input {
+	width: 100%;
+	margin-right: 10px;
+}
+
+.Newsletter-Form-Err-Msg .Newsletter-Form-Succ-Msg {
+	max-width: 400px;
+	display: none;
+}
+
+.Newsletter-Form-Err-Msg {
+	color: var(--theme-red) !important;
+}
+
+.Newsletter-Form-Succ-Msg {
+	color: var(--theme-color) !important;
+}
+
+@media (max-width: 700px) {
+	.Newsletter-Form-0 form {
+		flex-direction: column;
+		/* align-items: flex-start; */
+		width: 260px;
+	}
+
+	.Newsletter-Form-0 input {
+		width: calc(100% - 16px); /* 8px padding */
+		margin-right: 0px;
+		margin-bottom: 10px;
+	}
+
+	.Newsletter-Form-0 button {
+	}
+}

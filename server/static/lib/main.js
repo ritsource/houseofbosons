@@ -224,3 +224,55 @@ shareBtns.map((btn) => {
 		el.addEventListener('click', btn.clickFunc, false);
 	});
 });
+
+// to handle post request in email subscription
+const NewsletterForms = document.getElementsByClassName('Newsletter-Form-0');
+
+Object.values(NewsletterForms).map((el) => {
+	const subbtn = el.querySelector('button');
+	const input = el.querySelector('input');
+	const errormsg = el.querySelector('.Newsletter-Form-Err-Msg');
+	const succmsg = el.querySelector('.Newsletter-Form-Succ-Msg');
+
+	el.addEventListener(
+		'submit',
+		function(e) {
+			e.preventDefault();
+
+			const email = input.value.trim();
+			console.log('email: ', email);
+
+			fetch('/api/subscription/new', {
+				method: 'POST',
+				body: JSON.stringify({ email: email })
+			}).then((res) => {
+				if (res.status === 200) {
+					errormsg.innerHTML = '';
+					errormsg.style.display = 'none';
+					succmsg.innerHTML = 'Subscription successful!';
+					succmsg.style.display = 'block';
+					return;
+				}
+
+				succmsg.innerHTML = '';
+				succmsg.style.display = 'none';
+				errormsg.style.display = 'block';
+
+				if (res.status === 409) {
+					errormsg.innerHTML = 'Email "' + email + '" already exist on subscription list';
+					return;
+				}
+
+				if (res.status === 400) {
+					errormsg.innerHTML = 'Email "' + email + '" is invalid';
+					return;
+				}
+
+				errormsg.innerHTML = 'Something went wrong, error ' + res.status;
+
+				console.log('y', res);
+			});
+		},
+		false
+	);
+});

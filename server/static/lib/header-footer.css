@@ -6,6 +6,7 @@
 }
 
 .nav-link {
+	font-family: 'Ubuntu', 'Roboto', sans-serif;
 	font-size: 1rem;
 	text-decoration: none !important;
 	color: var(--text-color-2) !important;

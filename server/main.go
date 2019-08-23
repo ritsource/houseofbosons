@@ -19,6 +19,7 @@ func main() {
 	mux.HandleFunc("/posts", renderers.BlogsHandler)
 	mux.HandleFunc("/post/", renderers.BlogHandler)
 	mux.HandleFunc("/thread/", renderers.ThreadHandler)
+	mux.HandleFunc("/subscribe", renderers.SubscribeHandler)
 
 	mux.HandleFunc("/api", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Welcome to houseofbosons api!")
@@ -41,6 +42,11 @@ func main() {
 	mux.HandleFunc("/api/topic/all", middleware.CheckAuth(handlers.ReadTopics))
 	mux.HandleFunc("/api/topic/edit", middleware.CheckAuth(handlers.EditTopic))
 	mux.HandleFunc("/api/topic/delete", middleware.CheckAuth(handlers.DeleteTopic))
+
+	mux.HandleFunc("/api/subscription/new", handlers.CreateSubscription)
+	mux.HandleFunc("/api/subscription/all", middleware.CheckAuth(handlers.ReadSubscriptions))
+
+	// subscription
 
 	fs := http.FileServer(http.Dir("static/"))
 	mux.Handle("/static/", http.StripPrefix("/static/", fs))

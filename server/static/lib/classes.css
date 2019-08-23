@@ -50,3 +50,14 @@
 
 	cursor: pointer;
 }
+
+.Type-0-Input-Blue {
+	font-family: 'Lato', sans-serif;
+	font-size: 0.9rem;
+	letter-spacing: 0.2px;
+	color: var(--text-color-3);
+	margin: 0px;
+	border: 1px solid var(--text-color-4);
+	padding: 8px;
+	border-radius: 4px;
+}
