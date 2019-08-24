@@ -46,12 +46,19 @@ h6 {
 
 p,
 button {
-	font-family: 'Lato', 'Ubuntu', 'Roboto', sans-serif;
-	font-size: 1rem;
-	letter-spacing: 0.2px;
 	color: var(--text-color-3);
 	margin: 0px;
 	padding: 0px;
+}
+
+p {
+	font-family: 'Lato', 'Ubuntu', 'Roboto', sans-serif;
+	font-size: 1rem;
+	letter-spacing: 0.2px;
+}
+
+button {
+	font-family: 'Ubuntu', 'Roboto', sans-serif;
 }
 
 button:focus,

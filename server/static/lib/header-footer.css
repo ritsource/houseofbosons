@@ -3,6 +3,8 @@
 	padding: 16px 40px;
 	position: fixed;
 	background: white;
+	transition: 0.2s linear;
+	/* top: -60px; */
 }
 
 .nav-link {
@@ -16,6 +18,15 @@
 .nav-link:hover {
 	color: var(--text-color-0) !important;
 	text-decoration: underline !important;
+}
+
+.Navbar-With-Thumbnail-in-Back {
+	background: rgba(0, 0, 0, 0) !important;
+}
+
+.Navbar-With-Thumbnail-in-Back .nav-link {
+	color: white !important;
+	text-shadow: 1px 1px 1px black;
 }
 
 #Footer {
@@ -96,8 +107,8 @@
 
 @media (max-width: 700px) {
 	#Navbar {
-		width: calc(100vw - 40px) !important;
-		max-width: calc(100vw - 32px) !important;
+		/* width: calc(100vw - 40px) !important; */
+		width: calc(100vw - 32px) !important;
 		padding: 16px 16px;
 	}
 

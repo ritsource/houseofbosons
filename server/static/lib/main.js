@@ -30,12 +30,21 @@ var prevScrollpos = window.pageYOffset;
 
 window.onscroll = function() {
 	var currentScrollPos = window.pageYOffset;
+	var navbar = document.getElementById('Navbar');
 
 	if (prevScrollpos > currentScrollPos) {
-		document.getElementById('Navbar').style.top = '0';
+		navbar.style.top = '0';
 	} else {
-		// -68 because header height is -68
-		document.getElementById('Navbar').style.top = '-60px';
+		// -60 because header height is -60
+		navbar.style.top = '-60px';
+	}
+
+	var thumbnail_height = window.innerWidth < 700 ? window.innerHeight / 2 - 60 : window.innerHeight - 60;
+
+	if (currentScrollPos < thumbnail_height) {
+		navbar.classList.add('Navbar-With-Thumbnail-in-Back');
+	} else {
+		navbar.classList.remove('Navbar-With-Thumbnail-in-Back');
 	}
 
 	prevScrollpos = currentScrollPos;
@@ -133,6 +142,7 @@ it get's hidden while it's over footer (for mobile view mainly)
 */
 
 const footer_offset_height = document.getElementById('Footer').offsetHeight;
+// const thumbnail_height
 const likeBtn_div = document.querySelector('.Each-Post-Floating-Div');
 
 if (likeBtn_div) {
@@ -144,7 +154,10 @@ if (likeBtn_div) {
 				document.documentElement.scrollTop -
 				document.documentElement.clientHeight;
 
-			if (scrollBottom <= footer_offset_height) {
+			const toohigh = document.documentElement.scrollTop < window.innerHeight;
+			const toolow = scrollBottom <= footer_offset_height;
+
+			if (toohigh || toolow) {
 				likeBtn_div.style.display = 'none';
 			} else {
 				likeBtn_div.style.display = 'block';
