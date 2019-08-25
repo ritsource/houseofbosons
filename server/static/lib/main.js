@@ -31,6 +31,7 @@ var prevScrollpos = window.pageYOffset;
 window.onscroll = function() {
 	var currentScrollPos = window.pageYOffset;
 	var navbar = document.getElementById('Navbar');
+	var navbar_epp = document.querySelector('.Navbar-Of-Each-Post-Page'); // navbar on each post page
 
 	if (prevScrollpos > currentScrollPos) {
 		navbar.style.top = '0';
@@ -39,12 +40,14 @@ window.onscroll = function() {
 		navbar.style.top = '-60px';
 	}
 
-	var thumbnail_height = window.innerWidth < 700 ? window.innerHeight / 2 - 60 : window.innerHeight - 60;
+	if (navbar_epp) {
+		var thumbnail_height = window.innerWidth < 700 ? window.innerHeight / 2 - 60 : window.innerHeight - 60;
 
-	if (currentScrollPos < thumbnail_height) {
-		navbar.classList.add('Navbar-With-Thumbnail-in-Back');
-	} else {
-		navbar.classList.remove('Navbar-With-Thumbnail-in-Back');
+		if (currentScrollPos < thumbnail_height) {
+			navbar_epp.classList.add('Navbar-With-Thumbnail-in-Back');
+		} else {
+			navbar_epp.classList.remove('Navbar-With-Thumbnail-in-Back');
+		}
 	}
 
 	prevScrollpos = currentScrollPos;
@@ -154,7 +157,10 @@ if (likeBtn_div) {
 				document.documentElement.scrollTop -
 				document.documentElement.clientHeight;
 
-			const toohigh = document.documentElement.scrollTop < window.innerHeight;
+			const thumbnail_height = window.innerWidth < 700 ? window.innerHeight / 2 : window.innerHeight; // (Not -60 like th navbar)
+
+			// For mobile view, have to consider half
+			const toohigh = document.documentElement.scrollTop < thumbnail_height;
 			const toolow = scrollBottom <= footer_offset_height;
 
 			if (toohigh || toolow) {

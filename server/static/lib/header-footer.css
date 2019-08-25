@@ -30,60 +30,52 @@
 }
 
 #Footer {
-	/* background: var(--theme-color-m-1-dark); */
+	background: var(--footer-black);
 	padding: 16px 40px;
-	border-top: 1px solid var(--text-color-4);
+	/* border-top: 1px solid var(--text-color-4); */
 	/* align-items: flex-start; */
 }
 
-.House-Of-Bosons-Logo {
-	width: auto;
-	display: inline-block;
+.Footer-Top-Part {
+	flex-direction: row;
+	/* justify-content: space-around; */
 }
 
-.House-Of-Bosons-Logo-Circle {
-	width: 1rem;
-	height: 1rem;
-	border-radius: 50%;
-	background: var(--theme-color);
+.Footer-Section {
+	max-width: 300px;
+	margin: 16px 20px 6px 0px;
+	/* margin-right: 16px; */
 }
 
-.House-Of-Bosons-Logo-Text {
-	font-size: 18px;
-	line-height: 30px;
-	/* color: rgb(230, 230, 230); */
-	color: var(--text-color-2);
-	margin-left: 8px;
+.Footer-Section h3 {
+	color: white;
 }
 
-.House-Of-Bosons-Logo-Text span {
-	line-height: 30px;
-	font-size: 1rem;
-	/* letter-spacing: px; */
-	/* font-weight: bold; */
-	vertical-align: middle;
+.Footer-Section p {
+	color: var(--footer-white-1);
+	font-size: 0.9rem;
+	margin: 10px 0px;
 }
 
-.House-Of-Bosons-Logo-Text .HOB-Logo-B {
-	font-size: 1.1rem;
-	letter-spacing: 0.3px;
-	font-weight: normal;
+.Footer-Section a {
+	color: white !important;
 }
 
-.Footer-Sec {
+.Footer-Social {
 	text-align: left;
 	/* width: 200px; */
 }
 
-.Footer-Sec-Header {
-	font-size: 18px;
-	margin: 6px;
+.Footer-Social a:hover {
+	text-decoration: none;
 }
 
 .Footer-Sec-Social-Btn {
-	color: var(--text-color-3);
-	border: 1px solid var(--text-color-4);
-	background: white;
+	/* color: var(--text-color-3);
+	border: 1px solid var(--text-color-4); */
+	color: white;
+	border: 1px solid white;
+	/* background: white; */
 
 	width: 30px;
 	height: 30px;
@@ -97,7 +89,6 @@
 }
 .Footer-Sec-Social-Btn:hover {
 	color: white;
-	text-decoration: none;
 	background: var(--theme-color);
 	border: 1px solid var(--theme-color);
 }
@@ -112,11 +103,24 @@
 		padding: 16px 16px;
 	}
 
-	#Footer {
-		flex-direction: column;
+	.nav-link {
+		margin-left: 4px;
+		margin-right: 10px;
+		/* border: 1px solid red; */
 	}
 
-	#Footer .House-Of-Bosons-Logo {
-		display: none;
+	#Footer {
+		flex-direction: column;
+		padding: 16px;
+	}
+
+	.Footer-Top-Part {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.Footer-Section {
+		max-width: 100%;
+		margin: 16px 0px 6px 0px;
 	}
 }
