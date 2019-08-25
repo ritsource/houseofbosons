@@ -16,28 +16,32 @@
 </head>
 <body>
 
-    {{template "header"}}
+    {{template "header" .SubPost}}
 
-    <div class="Each-Post-Page-Body Flex-Column-Center">
-      <header class="Each-Post-Header">
+    <header class="Each-Post-Header">
+      <div class="Each-Post-Thumbnail-Div" style="background-image: url({{.SubPost.Thumbnail}})"><div></div></div>
+      <div class="Each-Post-Header-About">
         <h1>{{.SubPost.Title}}</h1>
-        <p>Part {{.OneBasedIdx}} of <strong>{{.Post.Title}}</strong></p>
+        <p class="Each-Post-Thread-Title-Index">Part {{.OneBasedIdx}} - <strong>{{.Post.Title}}</strong></p>
         <div class="Flex-Row-Start">
           <span class="Each-Post-FormattedDate">{{.SubPost.FormattedDate}}</span>
           <button class="Social-Share-Btn-FB Flex-Row-Center"><i class="fab fa-facebook-square"></i> Share</button>
           <button class="Social-Share-Btn-TW Flex-Row-Center"><i class="fab fa-twitter"></i> Tweet</button>
         </div>
-      </header>
+      </div>
+    </header>
       
+      <div class="Each-Post-Page-Body Flex-Column-Center">
+        
       <article class="markdown-body">
         {{.HTML}}
-      </article>
-
+      </article>      
+        
       <div class="Each-Post-Floating-Div">
         <button class="Like-Btn" postid="{{.Post.IDStr}}{{.NavCurrent}}">
           <i class="fas fa-thumbs-up"></i>
         </button>
-        <p>Like</p>
+        <p class="Like-Btn-Text">Like</p>
       </div>
     
       <div class="Each-Post-Bottom-Share-Btns-Cont Flex-Row-Start">

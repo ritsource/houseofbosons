@@ -101,6 +101,8 @@ Object.values(LikeBtns).map((el) => {
 	var v = localStorage.getItem(id);
 
 	let textel = el.parentNode.querySelector('.Like-Btn-Text');
+	console.log('textel', textel);
+
 	textel = textel ? textel : el;
 
 	if (v) {
