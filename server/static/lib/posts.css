@@ -247,10 +247,14 @@ Specific to Posts page
 	/* background-color: var(--theme-color); */
 	position: absolute;
 	background-position: top;
-	background-size: auto 100%;
-	background-repeat: no-repeat;
+	/* background-size: auto 100%; */
+	/* background-repeat: no-repeat; */
 	background-attachment: fixed;
-	z-index: -1;
+  z-index: -1;
+
+  background-size: cover;
+  /* background-position: center; */
+  background-repeat: no-repeat;
 }
 
 .Each-Post-Thumbnail-Div > div {

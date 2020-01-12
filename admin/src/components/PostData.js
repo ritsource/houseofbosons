@@ -62,7 +62,7 @@ const PostData = (props) => {
 						readTopics={props.readTopics}
 						createTopic={props.createTopic}
 						deleteTopic={props.deleteTopic}
-						topics={props.topics}
+						topics={props.topics || []}
 						visible={topicModal}
 						onClose={() => setTopicModal(false)}
 					/>

@@ -36,7 +36,6 @@ for i in "${EACH[@]}"; do
     export "${PART[0]}"="${PART[1]}"
 done
 
-
 # secret environment variables that are expected to be declared
 declare -a secrets=("GOOGLE_CLIENT_ID" "GOOGLE_CLIENT_SECRET" "AUTHORIZED_EMAIL" "SESSION_KEY")
 

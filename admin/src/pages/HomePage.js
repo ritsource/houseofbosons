@@ -47,7 +47,7 @@ class HomePage extends React.Component {
 					text="Manage Topics"
 					forSelection={false}
 					alreadySelected={[]}
-					topics={this.props.topics}
+					topics={this.props.topics || []}
 					readTopics={this.props.readTopics}
 					createTopic={this.props.createTopic}
 					deleteTopic={this.props.deleteTopic}
