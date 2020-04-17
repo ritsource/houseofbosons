@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/houseofbosons/houseofbosons/server/middleware"
-	"github.com/houseofbosons/houseofbosons/server/renderers"
+	"github.com/ritsource/houseofbosons/server/middleware"
+	"github.com/ritsource/houseofbosons/server/renderers"
 	"github.com/rs/cors"
 
-	"github.com/houseofbosons/houseofbosons/server/handlers"
+	"github.com/ritsource/houseofbosons/server/handlers"
 )
 
 func main() {

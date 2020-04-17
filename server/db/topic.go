@@ -23,7 +23,7 @@ type Topics []Topic
 Create creates a new topic document
 */
 func (t *Topic) Create() error {
-	ms, err := mgo.Dial(MongoURI)
+	ms, err := DBConnect()
 	if err != nil {
 		logrus.Printf("Could not connect to mongo: %v\n", err)
 		return err
@@ -38,7 +38,7 @@ func (t *Topic) Create() error {
 ReadAll reads all the topic documents
 */
 func (ts *Topics) ReadAll() error {
-	ms, err := mgo.Dial(MongoURI)
+	ms, err := DBConnect()
 	if err != nil {
 		logrus.Printf("Could not connect to mongo: %v\n", err)
 		return err
@@ -52,7 +52,7 @@ func (ts *Topics) ReadAll() error {
 Update edits a topic document
 */
 func (t *Topic) Update(u bson.M) error {
-	ms, err := mgo.Dial(MongoURI)
+	ms, err := DBConnect()
 	if err != nil {
 		logrus.Printf("Could not connect to mongo: %v\n", err)
 		return err
@@ -72,7 +72,7 @@ func (t *Topic) Update(u bson.M) error {
 Delete deletes a topic document
 */
 func (t *Topic) Delete() error {
-	ms, err := mgo.Dial(MongoURI)
+	ms, err := DBConnect()
 	if err != nil {
 		logrus.Printf("Could not connect to mongo: %v\n", err)
 		return err

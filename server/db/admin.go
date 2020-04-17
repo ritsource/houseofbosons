@@ -2,7 +2,6 @@ package db
 
 import (
 	"github.com/sirupsen/logrus"
-	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -15,7 +14,7 @@ type Admin struct {
 
 // Read reads from the dataabse
 func (a *Admin) Read(s bson.M) error {
-	ms, err := mgo.Dial(MongoURI)
+	ms, err := DBConnect()
 	if err != nil {
 		logrus.Printf("Could not connect to mongo: %v\n", err)
 		return err
@@ -27,7 +26,7 @@ func (a *Admin) Read(s bson.M) error {
 
 // Create creates a new admin document
 func (a *Admin) Create() error {
-	ms, err := mgo.Dial(MongoURI)
+	ms, err := DBConnect()
 	if err != nil {
 		logrus.Printf("Could not connect to mongo: %v\n", err)
 		return err

@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/houseofbosons/houseofbosons/server/db"
+	"github.com/ritsource/houseofbosons/server/db"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"

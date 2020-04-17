@@ -57,7 +57,7 @@ Count returns the number of documents
 that exists in the provided query
 */
 func (bs *Blogs) Count(f bson.M) (int, error) {
-	ms, err := mgo.Dial(MongoURI)
+	ms, err := DBConnect()
 	if err != nil {
 		logrus.Printf("Could not connect to mongo: %v\n", err)
 		return 0, err
@@ -72,7 +72,7 @@ ReadAll reads all blog-documents from the database
 and puts the values into `Blogs` slice
 */
 func (bs *Blogs) ReadAll(f, s bson.M) error {
-	ms, err := mgo.Dial(MongoURI)
+	ms, err := DBConnect()
 	if err != nil {
 		logrus.Printf("Could not connect to mongo: %v\n", err)
 		return err
@@ -88,7 +88,7 @@ the `skp` and `lim` values defines teh `skip` and `limit` values
 for the query
 */
 func (bs *Blogs) ReadFew(f, s bson.M, skp, lim int) error {
-	ms, err := mgo.Dial(MongoURI)
+	ms, err := DBConnect()
 	if err != nil {
 		logrus.Printf("Could not connect to mongo: %v\n", err)
 		return err
@@ -100,7 +100,7 @@ func (bs *Blogs) ReadFew(f, s bson.M, skp, lim int) error {
 
 // Create - Creates new Document
 func (b *Blog) Create() error {
-	ms, err := mgo.Dial(MongoURI)
+	ms, err := DBConnect()
 	if err != nil {
 		logrus.Printf("Could not connect to mongo: %v\n", err)
 		return err
@@ -113,7 +113,7 @@ func (b *Blog) Create() error {
 
 // Read - Reads single Document
 func (b *Blog) Read(f, s bson.M) error {
-	ms, err := mgo.Dial(MongoURI)
+	ms, err := DBConnect()
 	if err != nil {
 		logrus.Printf("Could not connect to mongo: %v\n", err)
 		return err
@@ -125,7 +125,7 @@ func (b *Blog) Read(f, s bson.M) error {
 
 // Update - Updates a Document by ID
 func (b *Blog) Update(s bson.M, u bson.M) error {
-	ms, err := mgo.Dial(MongoURI)
+	ms, err := DBConnect()
 	if err != nil {
 		logrus.Printf("Could not connect to mongo: %v\n", err)
 		return err
@@ -143,7 +143,7 @@ func (b *Blog) Update(s bson.M, u bson.M) error {
 
 // Delete - Deletes a Document
 func (b *Blog) Delete(id bson.ObjectId) error {
-	ms, err := mgo.Dial(MongoURI)
+	ms, err := DBConnect()
 	if err != nil {
 		logrus.Printf("Could not connect to mongo: %v\n", err)
 		return err
@@ -162,7 +162,7 @@ func (b *Blog) Delete(id bson.ObjectId) error {
 
 // DeletePermanent - Deletes a document permanently
 func (b *Blog) DeletePermanent() error {
-	ms, err := mgo.Dial(MongoURI)
+	ms, err := DBConnect()
 	if err != nil {
 		logrus.Printf("Could not connect to mongo: %v\n", err)
 		return err

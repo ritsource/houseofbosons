@@ -12,8 +12,8 @@ import (
 	"os"
 
 	"github.com/gorilla/context"
-	"github.com/houseofbosons/houseofbosons/server/db"
-	"github.com/houseofbosons/houseofbosons/server/middleware"
+	"github.com/ritsource/houseofbosons/server/db"
+	"github.com/ritsource/houseofbosons/server/middleware"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"

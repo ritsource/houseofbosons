@@ -22,7 +22,8 @@ export ADMIN_ORIGIN="http://localhost:3000"
 # reading the contents of file
 SECRETS=$(<dev-keys.secret)
 # replacing `\n` from SECRETS string
-SECRETS=$(echo $SECRETS|tr --delete '\n')
+# SECRETS=$(echo $SECRETS|tr --delete '\n')
+SECRETS=$(echo $SECRETS|tr -d '\n')
 # adding a ` ` at the end of the string, so later can be splitted at `; `
 SECRETS=$(printf "${SECRETS} ")
 
@@ -37,7 +38,7 @@ for i in "${EACH[@]}"; do
 done
 
 # secret environment variables that are expected to be declared
-declare -a secrets=("GOOGLE_CLIENT_ID" "GOOGLE_CLIENT_SECRET" "AUTHORIZED_EMAIL" "SESSION_KEY")
+declare -a secrets=("GOOGLE_CLIENT_ID" "GOOGLE_CLIENT_SECRET" "AUTHORIZED_EMAIL" "SESSION_KEY" "MONGO_CLUSTER_URI" "MONGO_CLUSTER_DB_NAME" "MONGO_CLUSTER_USER" "MONGO_CLUSTER_PASSWORD") 
 
 # checking if secret config variables exists or not
 for i in "${secrets[@]}"

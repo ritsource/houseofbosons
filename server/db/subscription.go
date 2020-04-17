@@ -25,7 +25,7 @@ type Subscriptions []Subscription
 Create creates a new subscriptions document
 */
 func (s *Subscription) Create() error {
-	ms, err := mgo.Dial(MongoURI)
+	ms, err := DBConnect()
 	if err != nil {
 		logrus.Printf("Could not connect to mongo: %v\n", err)
 		return err
@@ -40,7 +40,7 @@ func (s *Subscription) Create() error {
 ReadAll reads all the subscription documents
 */
 func (ss *Subscriptions) ReadAll() error {
-	ms, err := mgo.Dial(MongoURI)
+	ms, err := DBConnect()
 	if err != nil {
 		logrus.Printf("Could not connect to mongo: %v\n", err)
 		return err
@@ -52,7 +52,7 @@ func (ss *Subscriptions) ReadAll() error {
 
 // Read - Reads single subscription document
 func (s *Subscription) Read(f, sel bson.M) error {
-	ms, err := mgo.Dial(MongoURI)
+	ms, err := DBConnect()
 	if err != nil {
 		logrus.Printf("Could not connect to mongo: %v\n", err)
 		return err
@@ -66,7 +66,7 @@ func (s *Subscription) Read(f, sel bson.M) error {
 Update edits a subscription document
 */
 func (s *Subscription) Update(u bson.M) error {
-	ms, err := mgo.Dial(MongoURI)
+	ms, err := DBConnect()
 	if err != nil {
 		logrus.Printf("Could not connect to mongo: %v\n", err)
 		return err
@@ -86,7 +86,7 @@ func (s *Subscription) Update(u bson.M) error {
 Delete deletes a subscription document
 */
 func (s *Subscription) Delete() error {
-	ms, err := mgo.Dial(MongoURI)
+	ms, err := DBConnect()
 	if err != nil {
 		logrus.Printf("Could not connect to mongo: %v\n", err)
 		return err
