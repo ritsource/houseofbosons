@@ -1,9 +1,15 @@
-FROM golang:1.12
+FROM golang:alpine
 
-WORKDIR /usr/server
+RUN apk update && apk add --no-cache git
 
 ENV PORT 8080
 
-COPY ./bin ./bin
+WORKDIR /go/src/github.com/ritsource/houseofbosons/server
 
-CMD ./bin/server.out
+COPY . .
+
+RUN go get -d -v
+
+RUN go build -o /go/bin/houseofbosons-server
+
+CMD [ "/go/bin/houseofbosons-server" ]
